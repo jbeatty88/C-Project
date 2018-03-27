@@ -1,0 +1,30 @@
+#include <iostream>
+#include <string>
+#include "linkedList.h"
+
+using namespace std;
+
+void prompt() {
+  int age;
+  int numPpl;
+  string firstName;
+  linkedList amigos;
+  
+  cout << "Let's make a list of the people in your life" << endl;
+  cout << "How many people do you plan to add to this list?" << endl;
+  cin >> numPpl;
+  for(int i = numPpl; i > 0; i--) {
+    cout << "What's their name?" << endl;
+    cin >> firstName;
+    cout << "What's their age?" << endl;
+    cin >> age;
+    amigos.addNode(age, firstName);
+  };
+}
+
+int main() {
+  
+  prompt();
+  
+  return 0;
+}

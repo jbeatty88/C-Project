@@ -1,0 +1,21 @@
+#include <iostream>
+#include <string>
+
+struct node { // A node struct 
+  int age;
+  std::string name;
+  node *next;
+};
+  
+class linkedList {
+ private:
+  node *head, *tail; // Pointers to the head and tail of the node struct in memory
+ public:
+  linkedList() {  // I think this is the constructor but I am not %100 sure
+    head = NULL; // Set pointers to NULL
+    tail = NULL;
+  }
+
+  void addNode(int age, std::string name);
+  
+};
