@@ -1,3 +1,4 @@
+/* Written by Josh Beatty */
 #include <iostream>
 #include <string>
 #include "linkedList.h"
