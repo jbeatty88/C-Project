@@ -22,5 +22,5 @@ class linkedList {
 
   void appendNode(int age, std::string name);
   void displayList();
-  
+  void prePend(int value, std::string name);
 };

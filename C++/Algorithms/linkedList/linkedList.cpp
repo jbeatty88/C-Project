@@ -28,3 +28,11 @@ void linkedList::displayList() {
     temp = temp -> next; // Point to the next node in the linked list
   }
 }
+
+void linkedList::prePend(int value, std::string name){
+  node *temp = new node;
+  temp -> age = value;
+  temp -> name = name;
+  temp -> next = head;
+  head = temp;
+}

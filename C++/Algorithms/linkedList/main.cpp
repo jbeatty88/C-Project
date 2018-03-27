@@ -12,23 +12,34 @@ void prompt() {
   linkedList amigos;
   
   cout << "Let's make a list of the people in your life" << endl;
+  cout << endl;
   cout << "How many people do you plan to add to this list?" << endl;
+  cout << endl;
   cin >> numPpl;
+  
   for(int i = numPpl; i > 0; i--) {
-    cout << "What's their name?" << endl;
+    cout << "First  name?" << endl;
     cin >> firstName;
-    cout << "What's their age?" << endl;
+    cout << "Age?" << endl;
     cin >> age;
     amigos.appendNode(age, firstName);
   };
 
-  cout << "Do you want to display your list?" << endl;
+  cout << "Do you want to display your list or add more?" << endl;
   cin >> answer;
   if(answer == "yes") {
     amigos.displayList();
   }
-  else {
-    
+  else if(answer == "add"){
+    cout << "First name?" << endl;
+    cin >> firstName;
+    cout << "Age?" << endl;
+    cin >> age;
+    amigos.prePend(age,firstName);
+    amigos.displayList();
+  }
+  else{
+    cout << "Bye bye" << endl;
   }
 }
 
