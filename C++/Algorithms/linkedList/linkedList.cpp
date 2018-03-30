@@ -29,10 +29,31 @@ void linkedList::displayList() {
   }
 }
 
-void linkedList::prePend(int value, std::string name){
-  node *temp = new node;
-  temp -> age = value;
-  temp -> name = name;
-  temp -> next = head;
-  head = temp;
+void linkedList::prePend(int age, std::string name){
+  node *temp     = new node;
+  temp -> age    = age;
+  temp -> name   = name;
+  temp -> next   = head;
+  head           = temp;
+}
+
+void linkedList::positionInsert(int pos, int age, std::string name) {
+  node *temp        = new node;
+  node *prevNode    = new node;
+  node *currentNode = new node;
+  
+  currentNode       = head;
+  // Traverse the list  
+  for(int i = 1; i < pos; i++) {
+    // Update the pointers
+    prevNode = currentNode;
+    currentNode = currentNode -> next;
+  }
+  // Store the data in our new node
+  temp -> age          = age;
+  temp -> name         = name;
+  // Connecct out new node to the list
+  prevNode -> next     = temp;
+  temp -> next         = currentNode;
+  
 }

@@ -6,8 +6,10 @@
 using namespace std;
 
 void prompt() {
-  int age;
-  int numPpl;
+  int age     = 0;
+  int numPpl  = 0;
+  int pos     = 0;
+  string insertStyle;
   string firstName;
   string answer;
   linkedList amigos;
@@ -16,32 +18,43 @@ void prompt() {
   cout << endl;
   cout << "How many people do you plan to add to this list?" << endl;
   cout << endl;
-  cin >> numPpl;
+  cin  >> numPpl;
   
   for(int i = numPpl; i > 0; i--) {
     cout << "First  name?" << endl;
-    cin >> firstName;
+    cin  >> firstName;
     cout << "Age?" << endl;
-    cin >> age;
+    cin  >> age;
     amigos.appendNode(age, firstName);
   };
 
   cout << "Do you want to display your list or add more?" << endl;
-  cin >> answer;
+  cin  >> answer;
   if(answer == "yes") {
     amigos.displayList();
   }
   else if(answer == "add"){
     cout << "First name?" << endl;
-    cin >> firstName;
+    cin  >> firstName;
     cout << "Age?" << endl;
-    cin >> age;
-    amigos.prePend(age,firstName);
-    amigos.displayList();
+    cin  >> age;
+    cout << "How would you like to inset?" << endl;
+    cin >> insertStyle;
+    
+    if (insertStyle == "prepend" ) {
+      amigos.prePend(age, firstName);
+    }
+    else if (insertStyle == "insert") {
+      cout  << "Where would you like to insert it?" << endl;
+      cin   >> pos;
+      amigos.positionInsert(pos, age, firstName);
+    }
   }
+  
   else{
     cout << "Bye bye" << endl;
   }
+   amigos.displayList();
 }
 
 int main() {
