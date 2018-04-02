@@ -1,0 +1,19 @@
+s = input("string(Please use quotation marks): ")
+
+word_dict = {}
+count = 0
+
+for word1 in s.split(' '):
+	count = 0
+	word_dict[word1] = count
+	for word2 in s.split():
+		if word1 == word2:
+			count += 1
+			word_dict[word1] = count
+
+
+for word, count in word_dict.items():
+    print word,
+    print count
+
+

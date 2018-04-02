@@ -24,4 +24,5 @@ class linkedList {
   void displayList();
   void prePend(int age, std::string name);
   void positionInsert(int pos, int age, std::string name);
+  void deleteNode(int pos);
 };

@@ -57,3 +57,16 @@ void linkedList::positionInsert(int pos, int age, std::string name) {
   temp -> next         = currentNode;
   
 }
+
+void linkedList::deleteNode(int pos) {
+  node *prevNode = new node;
+  node *currNode = new node;
+  currNode = head;
+  // Travers through list to find desired node
+  for(int i = 0; i < pos; i++) {
+    prevNode = currNode;
+    currNode = currNode -> next;
+  }
+  // Unlink the node from the list (bypass)
+  prevNode -> next = currNode -> next;
+}
