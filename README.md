@@ -1,3 +1,3 @@
 # Projects
 
-This repo is for any programming projects both assigned and hobby. 
+This repo is for any programming or computer science related work and projects. 
