@@ -12,8 +12,8 @@ private:
 	std::vector<Token> tokens;
 	InputStream input;
 	std::string tmpStr;
-	std::string bestStr;
-	TokenType bestType;
+	std::string currStr;
+	TokenType currType;
 	TokenType tmpType;
 
 public:

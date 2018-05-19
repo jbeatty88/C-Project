@@ -7,8 +7,8 @@ Lexer::~Lexer(){}
 void Lexer::tokenize()
 {
 	while (input.now() != '\0') {
-		bestType = UNDEFINED;
-		bestStr = "";
+		currType = UNDEFINED;
+		currStr = "";
 		char c = input.now();
 		readSingleChar(c);
 		readColonDash();
@@ -18,50 +18,52 @@ void Lexer::tokenize()
 		readComment(c);
 		readWhitespace(c);
 		readNone(c);
-		readEndline(c);
-		pushOn(bestType, bestStr, input.getCurrentLine());
-		input.advanceBy(bestStr.length());
+
+		pushOn(currType, currStr, input.getCurrentLine());
+		input.advanceBy(currStr.length());
 	}
 	pushOn(ENDOFILE, "", input.getCurrentLine());
 }
 
-void Lexer::readEndline(char c) {
-	if (tmpStr == "\n") {
-		tmpStr = c;
-		setIfBetter(tmpStr, WHITESPACE);
-	}
-}
+
+
+
+
+
+
 void Lexer::readSingleChar(char c)
 {
 	tmpStr = c;
+	
 	switch (c) {
 	case '.': 
-		tmpType = PERIOD;
-		break;
+	  tmpType = PERIOD;
+	  break;
 	case ',': 
-		tmpType = COMMA;
-		break;
+	  tmpType = COMMA;
+	  break;
 	case '?': 
-		tmpType = Q_MARK;
-		break;
+	  tmpType = Q_MARK;
+	  break;
 	case '(': 
-		tmpType = LEFT_PAREN;
-		break;
+	  tmpType = LEFT_PAREN;
+	  break;
 	case ')': 
-		tmpType = RIGHT_PAREN;
-		break;
+	  tmpType = RIGHT_PAREN;
+	  break;
 	case ':': 
-		tmpType = COLON;
-		break;
+	  tmpType = COLON;
+	  break;
 	case '*': 
-		tmpType = MULTIPLY;
-		break;
+	  tmpType = MULTIPLY;
+	  break;
 	case '+': 
-		tmpType = ADD;
-		break;
-	default: 
-		tmpStr = "";
+	  tmpType = ADD;
+	  break;
+	default:
+	  tmpStr = "";
 	}
+	
 	setIfBetter(tmpStr, tmpType);
 }
 
@@ -235,9 +237,9 @@ void Lexer::pushOn(TokenType tt, std::string v, int ln)
 
 void Lexer::setIfBetter(std::string s, TokenType t)
 {
-	if (tmpStr.length() > bestStr.length()) {
-		bestStr = tmpStr;
-		bestType = tmpType;
+	if (tmpStr.length() > currStr.length()) {
+		currStr = tmpStr;
+		currType = tmpType;
 	}
 }
 
