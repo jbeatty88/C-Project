@@ -1,3 +1,4 @@
+# By Josh Beatty
 def highest_gc_content_of(filename):
     # Open input file
     file = open(filename)
