@@ -1,16 +1,17 @@
-## Variables
-CC = g++
-FLAGS = -Wall -g 
-EXE_NAME = lexical_analyzer
+CPP = g++
+DEBUG = -ggdb
+CPPFLAGS = -Wall -Werror $(DEBUG)
+#LDFLAGS = -lm
+EXE = lexical_analyzer
 OBJS = main.o Token.o InputStream.o Lexer.o
 
 .C.o:
-	$(CC) $< -c $(FLAGS) $(INC)
-$(EXE_NAME): $(OBJS)
-	$(CC) -o $@ $(OBJS) $(FLAGS) $(INC) $(LIBS) $(XLIBS) -lm
+	$(CPP) $< -c $(CPPFLAGS)
+$(EXE): $(OBJS)
+	$(CPP) $(CPPFLAGS) -o $@ $(OBJS)
 
 
 .PHONY: clean
 clean:
 	rm -f $(OBJS)
-	rm -f $(EXE_NAME)
+	rm -f $(EXE)

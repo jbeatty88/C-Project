@@ -19,7 +19,7 @@ void InputStream::buildString(std::string fileName)
 	ifstream inputFile;
 	// Our string parsing variable
 	stringstream ss;
-	char c;
+	//char c;
 	std::string line;
 	// Open input file
 	inputFile.open(fileName);
@@ -47,7 +47,7 @@ void InputStream::advanceBy(int n)
 			currentLine++;
 		}
 		// Increment location idx by n
-		currentLoc++;
+		currentLoc++;		
 	}
 }
 
@@ -66,7 +66,7 @@ char InputStream::now()
 char InputStream::lookAhead(int i)
 {
 	// Check if able to look ahead
-	if (currentLoc + i < str.length()) {
+        if (currentLoc + i <= str.length()) {
 		return str[currentLoc + i];
 	}
 	else {

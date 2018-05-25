@@ -7,8 +7,8 @@ Lexer::~Lexer(){}
 void Lexer::tokenize()
 {
 	while (input.now() != '\0') {
-		currType = UNDEFINED;
-		currStr = "";
+		defType = UNDEFINED;
+		defStr = "";
 		char c = input.now();
 		readSingleChar(c);
 		readColonDash();
@@ -19,15 +19,19 @@ void Lexer::tokenize()
 		readWhitespace(c);
 		readNone(c);
 
-		pushOn(currType, currStr, input.getCurrentLine());
-		input.advanceBy(currStr.length());
+		pushOn(defType, defStr, input.getCurrentLine());
+		if(input.lookAhead(1) == ':') {
+		  input.advanceBy(defStr.length());
+		}
+		else if(defType == COLON_DASH) {
+		  input.advanceBy(defStr.length() + 2);
+		}
+		else {
+		input.advanceBy(defStr.length() + 1);
+		}
 	}
 	pushOn(ENDOFILE, "", input.getCurrentLine());
 }
-
-
-
-
 
 
 
@@ -64,7 +68,7 @@ void Lexer::readSingleChar(char c)
 	  tmpStr = "";
 	}
 	
-	setIfBetter(tmpStr, tmpType);
+	setDefTypeStr(tmpStr, tmpType);
 }
 
 void Lexer::readColonDash()
@@ -77,7 +81,7 @@ void Lexer::readColonDash()
 			tmpType = COLON_DASH;
 		}
 	}
-	setIfBetter(tmpStr, tmpType);
+	setDefTypeStr(tmpStr, tmpType);
 }
 
 void Lexer::readKeyword(char c)
@@ -105,14 +109,14 @@ void Lexer::readKeyword(char c)
 	}
 			  break;
 	}
-	for (int i = 0; i < keyword.length(); i++) {
+	for (unsigned int i = 0; i < keyword.length(); i++) {
 		if ((input.lookAhead(i)) == keyword[i]) tmpStr += keyword[i];
 		else {
 			keyword = "";
 			tmpStr = "";
 		}
 	}
-	setIfBetter(tmpStr, tmpType);
+	setDefTypeStr(tmpStr, tmpType);
 }
 
 void Lexer::readId(char c)
@@ -126,7 +130,7 @@ void Lexer::readId(char c)
 			tmpStr += input.lookAhead(i);
 			i++;
 		}
-		setIfBetter(tmpStr, ID);
+		setDefTypeStr(tmpStr, ID);
 	}
 }
 
@@ -156,13 +160,13 @@ void Lexer::readString(char c)
 				else {
 					tmpType = UNDEFINED;
 					endofstring = true;
-					setIfBetter(tmpStr, tmpType);
+					setDefTypeStr(tmpStr, tmpType);
 					return;
 				}
 			}
 		}
 	}
-	setIfBetter(tmpStr, STRING);
+	setDefTypeStr(tmpStr, STRING);
 }
 
 void Lexer::readComment(char c)
@@ -198,7 +202,7 @@ void Lexer::readComment(char c)
 				else if (input.lookAhead(i) == '\0') {
 					endofcomment = true;
 					tmpType = UNDEFINED;
-					setIfBetter(tmpStr, tmpType);
+					setDefTypeStr(tmpStr, tmpType);
 					return;
 				}
 				else {
@@ -209,14 +213,14 @@ void Lexer::readComment(char c)
 		}
 		tmpType = COMMENT;
 	}
-	setIfBetter(tmpStr, tmpType);
+	setDefTypeStr(tmpStr, tmpType);
 }
 
 void Lexer::readWhitespace(char c)
 {
 	if (isspace(c)) {
 		tmpStr = c;
-		setIfBetter(tmpStr, WHITESPACE);
+		setDefTypeStr(tmpStr, WHITESPACE);
 	}
 }
 
@@ -224,7 +228,7 @@ void Lexer::readNone(char c)
 {
 	tmpStr = c;
 	tmpType = UNDEFINED;
-	setIfBetter(tmpStr, tmpType);
+	setDefTypeStr(tmpStr, tmpType);
 }
 
 void Lexer::pushOn(TokenType tt, std::string v, int ln)
@@ -235,17 +239,17 @@ void Lexer::pushOn(TokenType tt, std::string v, int ln)
 	}
 }
 
-void Lexer::setIfBetter(std::string s, TokenType t)
+void Lexer::setDefTypeStr(std::string s, TokenType t)
 {
-	if (tmpStr.length() > currStr.length()) {
-		currStr = tmpStr;
-		currType = tmpType;
+	if (tmpStr.length() > defStr.length()) {
+		defStr = tmpStr;
+		defType = tmpType;
 	}
 }
 
 void Lexer::printV()
 {
-	for (int i = 0; i < tokens.size(); i++)
+	for (unsigned int i = 0; i < tokens.size(); i++)
 	{
 		std::cout << tokens[i].toString() << std::endl;
 	}

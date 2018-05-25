@@ -12,8 +12,8 @@ private:
 	std::vector<Token> tokens;
 	InputStream input;
 	std::string tmpStr;
-	std::string currStr;
-	TokenType currType;
+	std::string defStr;
+	TokenType defType;
 	TokenType tmpType;
 
 public:
@@ -29,7 +29,7 @@ public:
 	void readWhitespace(char c);
 	void readNone(char c);
 	void pushOn(TokenType tt, std::string v, int ln);
-	void setIfBetter(std::string s, TokenType t);
+	void setDefTypeStr(std::string s, TokenType t);
 	void printV();
 	void readEndline(char c);
 };

@@ -8,8 +8,8 @@ class InputStream
 {
 private:
 	std::string str;
-	int currentLoc;
-	int currentLine;
+	unsigned int currentLoc;
+	unsigned int currentLine;
 	bool atEnd;
 public:
 	InputStream(std::string fileName);
