@@ -8,10 +8,16 @@
     <ul>
       <li v-for="item in items">{{ item.title }}</li>
     </ul>
-    <button type="button" name="button" v-on:click="greet('Hello World')">Say Greeting</button>
+    <button type="button" name="button" v-on:click="greet('Hello')">Say Greeting</button>
     <br />
     <br />
     <input type="text" v-on:keyup="pressKey" v-on:keyup.enter="enterHit">
+
+    <hr />
+    <label> First Name: </label><input type="text" v-model="user.firstName">
+    <br />
+    <label> First Name: </label><input type="text" v-model="user.lastName">
+    <h3>{{ fullName }}</h3>
   </div>
 </template>
 
@@ -42,6 +48,11 @@
       },
       enterHit: function() {
         console.log('You hit enter');
+      }
+    },
+    computed: {
+      fullName: function() {
+        return this.user.firstName + '  ' + this.user.lastName;
       }
     }
   }
