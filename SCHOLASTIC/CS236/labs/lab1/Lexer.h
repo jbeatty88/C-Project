@@ -33,4 +33,3 @@ public:
 	void printV();
 	void readEndline(char c);
 };
-

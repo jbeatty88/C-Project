@@ -20,54 +20,47 @@ void Lexer::tokenize()
 		readNone(c);
 
 		pushOn(defType, defStr, input.getCurrentLine());
-		if(input.lookAhead(1) == ':') {
-		  input.advanceBy(defStr.length());
-		}
-		else if(defType == COLON_DASH) {
-		  input.advanceBy(defStr.length() + 2);
-		}
-		else {
-		input.advanceBy(defStr.length() + 1);
-		}
+		input.advanceBy(defStr.length());
 	}
 	pushOn(ENDOFILE, "", input.getCurrentLine());
 }
 
 
-
 void Lexer::readSingleChar(char c)
 {
 	tmpStr = c;
-	
+
 	switch (c) {
-	case '.': 
+	case '.':
 	  tmpType = PERIOD;
 	  break;
-	case ',': 
+	case ',':
 	  tmpType = COMMA;
 	  break;
-	case '?': 
+	case '?':
 	  tmpType = Q_MARK;
 	  break;
-	case '(': 
+	case '(':
 	  tmpType = LEFT_PAREN;
 	  break;
-	case ')': 
+	case ')':
 	  tmpType = RIGHT_PAREN;
 	  break;
-	case ':': 
+	case ':':
 	  tmpType = COLON;
 	  break;
-	case '*': 
+	case '*':
 	  tmpType = MULTIPLY;
 	  break;
-	case '+': 
+	case '+':
 	  tmpType = ADD;
 	  break;
 	default:
 	  tmpStr = "";
+		tmpType = WHITESPACE; //FIXME: This needs to catch \n not WHITESPACE, this is just a temp fix
+		break;
 	}
-	
+
 	setDefTypeStr(tmpStr, tmpType);
 }
 
@@ -110,7 +103,9 @@ void Lexer::readKeyword(char c)
 			  break;
 	}
 	for (unsigned int i = 0; i < keyword.length(); i++) {
-		if ((input.lookAhead(i)) == keyword[i]) tmpStr += keyword[i];
+		if ((input.lookAhead(i)) == keyword[i]) {
+			tmpStr += keyword[i];
+		}
 		else {
 			keyword = "";
 			tmpStr = "";
@@ -130,7 +125,8 @@ void Lexer::readId(char c)
 			tmpStr += input.lookAhead(i);
 			i++;
 		}
-		setDefTypeStr(tmpStr, ID);
+		tmpType = ID;
+		setDefTypeStr(tmpStr, tmpType);
 	}
 }
 
@@ -256,4 +252,3 @@ void Lexer::printV()
 	std::cout << "Total Tokens = " << tokens.size();
 	std::cout << std::endl;
 }
-

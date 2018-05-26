@@ -22,5 +22,5 @@ public:
 	void print();
 	int getCurrentLoc();
 	int getCurrentLine();
+	//void PrintStr();
 };
-

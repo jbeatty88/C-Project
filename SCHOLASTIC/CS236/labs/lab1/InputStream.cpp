@@ -36,28 +36,32 @@ void InputStream::buildString(std::string fileName)
 	}
 }
 
+/*void InputStream::PrintStr() {
+	std::cout << str << endl;
+}*/
+
 void InputStream::advanceBy(int n)
 {
 	// Advance by n
 	for (int i = 0; i < n; i++) {
 		// Check if value at current location is a new line
-		if (now() == '\n')	
+		if (now() == '\n')
 		{
 			// If so, increment line number
 			currentLine++;
 		}
 		// Increment location idx by n
-		currentLoc++;		
+		currentLoc++;
 	}
 }
 
 char InputStream::now()
 {
 	//  Check if we're at the end of the file
-	if (currentLoc >= str.length()) {
+	if (currentLoc > str.length()) {  //FIXME: Should this be >= or just >
 		return '\0';
 	}
-	// If not, return value at current location
+	// If not, return str value at current location
 	else {
 		return str[currentLoc];
 	}
@@ -96,5 +100,3 @@ int InputStream::getCurrentLine()
 {
 	return currentLine;
 }
-
-

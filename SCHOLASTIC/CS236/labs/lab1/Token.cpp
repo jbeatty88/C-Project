@@ -6,45 +6,45 @@ using namespace std;
 std::string Token::enumToString(TokenType tt)
 {
 	switch (tt) {
-	case COMMA: 
+	case COMMA:
 		return "COMMA";
-	case PERIOD: 
+	case PERIOD:
 		return "PERIOD";
-	case Q_MARK: 
+	case Q_MARK:
 		return "Q_MARK";
-	case LEFT_PAREN: 
+	case LEFT_PAREN:
 		return "LEFT_PAREN";
-	case RIGHT_PAREN: 
+	case RIGHT_PAREN:
 		return "RIGHT_PAREN";
-	case COLON: 
+	case COLON:
 		return "COLON";
-	case COLON_DASH: 
+	case COLON_DASH:
 		return "COLON_DASH";
-	case MULTIPLY: 
+	case MULTIPLY:
 		return "MULTIPLY";
-	case ADD: 
+	case ADD:
 		return "ADD";
-	case SCHEMES: 
+	case SCHEMES:
 		return "SCHEMES";
-	case FACTS: 
+	case FACTS:
 		return "FACTS";
-	case RULES: 
+	case RULES:
 		return "RULES";
-	case QUERIES: 
+	case QUERIES:
 		return "QUERIES";
-	case ID: 
+	case ID:
 		return "ID";
-	case STRING: 
+	case STRING:
 		return "STRING";
-	case COMMENT: 
+	case COMMENT:
 		return "COMMENT";
-	case WHITESPACE: 
+	case WHITESPACE:
 		return "WHITESPACE";
-	case UNDEFINED: 
+	case UNDEFINED:
 		return "UNDEFINED";
-	case ENDOFILE: 
+	case ENDOFILE:
 		return "EOF";
-	default: 
+	default:
 		return "NONE";
 	}
 }
@@ -65,5 +65,3 @@ std::string Token::toString()
 {
 	return "(" + enumToString(type) + ",\"" + val + "\"," + to_string(lineNum) + ")";
 }
-
-
