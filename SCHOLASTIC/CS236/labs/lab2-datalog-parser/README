@@ -1,0 +1,41 @@
+ Using your lexical analyzer from Project 1, write a parser for the Datalog grammar defined below. You will want to add a few methods to your lexical analyzer to make it easy for you to access the tokens and use the tokens in order to determine if the given input is an instance of a valid Datalog program.
+
+If the parse is successful, S∈L(G)
+
+, return the string: 'Success!' followed by all the schemes, facts, rules, queries, and the domain values (i.e., all the strings that appear in the facts). Include the number of items in each list. Note that the domain is a sorted set (no duplicates) of strings.
+
+If the parse is unsuccessful, S∉L(G)
+
+, output 'Failure!' followed by the offending token, (i.e., its triple including its token-ID name, string value, and line number). Note that the parser stops after encountering the first offending token.
+
+There are two parts to this project:
+
+    Recognizing membership in the language with 10 meaningful tests; and
+    Collecting and outputting the data to match the project requirements.
+
+The two parts are due separately and recorded separately. See the next section for details.
+
+Part 1: Syntax Checker
+
+You must implement an LL(1) parser to recognize valid and invalid datalog programs according to the Datalog grammar definition. LL(1) is understood as a left to right scan of the input to create a left derivation using only the next token as a look ahead (e.g. a deterministic top-down parser that chooses the rule to expand based on the current token). The parser implementation must also be recursive meaning it either uses the runtime stack to keep track of rules in the parse or it manages a stack or rules directly similar to the parse table. Either solution works; although, using the runtime stack is much more direct and simple (i.e., create a method for every rule in the grammar).
+
+Further, at least 10 test inputs must be created to test the functionality of the parser. The tests are individual files containing datalog programs (valid or invalid). The tests should cover corner cases and include, in the comments of the datalog test input, an explanation of what is being tested with the expected output. Further, all the tests must be automatic; automatic means the tests run without any user input and reports to the console the status of every test: pass or fail. The tests must be documented and justified: what does the test accomplish.
+
+    Command line argument: no command line arguments
+    Input file: none
+    Output: Success! if the input is a member of the language and Failure! followed by the offending token, indented, on a new line otherwise. The output is to the console.
+
+Part 1 is scored on your 10 provided tests. Note: part 1 is submitted just like the prior lab; zip up the files and submit the zipped file on learning suite. The zip-file must include the 10 test cases.
+Part 2: Datalog Parser
+
+As the parser traverses the input file reading tokens, collect data from the tokens to store the program input as a collection of instances of classes. If the input is a valid datalog program, then use the class instances to generate output detailing the input data. Classes should be created for at least the following parts of the language: datalogProgram, rule, predicate, parameter, and expressions. Expressions may be a subclass of Parameter. Expressions require a tree structure to represent arbitrarily nested expressions.
+
+The datalogProgram class should use lists of object instances to collect schemes, facts, rules, or queries. The output for this part of the project must be generated from the datalogProgram class member variables after the parsing is complete. Implementing toString methods for the different classes is one of several ways to generate the program output.
+
+By way of clarification, the domain is any string constant that appears in a fact. Only unique values should appear in the domain (no duplicates).
+
+    Command line: a single argument indicating the input file
+    Input: a datalog program (valid or invalid)
+    Output: see the output specifications and examples
+
+Part 2 is scored on a set of private tests at submission.
