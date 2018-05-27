@@ -41,4 +41,13 @@ level11: IFukwKGsFW8MOq3IRFqrxE1hxTNEbUPR
 level12: 5Te8Y4drgCRfCx8ugdwuEX8KFC6k2EUu
 	 >> ls
 	 >> echo | cat data.txt | tr A-Za-z N-ZA-Mn-za-m
-level13: 
+level13: 8ZjyCRiBWFYkneahHwxCv3wb2a1ORpYL
+	 >> ls
+	 >> cp data.txt /tmp/dyx
+	 >> file data.txt
+	 >> xxd -r data.txt >> data
+	 >> file data
+	 >> mv data data.gz
+	 >> gzip -d data.gz
+	 ...etc, do until get another ASCII file with password
+level14: 
