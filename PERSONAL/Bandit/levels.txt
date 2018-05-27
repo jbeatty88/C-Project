@@ -35,4 +35,10 @@ level9: UsvVyFSfZZWbi6wgC7dAFyFuR6jQQUhR
 level10: truKLdjsbJ5g7yyJ2X2R0o3a5HQJFuLk
 	 >> ls
 	 >> strings data.txt
-level11: 
+level11: IFukwKGsFW8MOq3IRFqrxE1hxTNEbUPR
+	 >> ls
+	 >> base64 --decode data.txt
+level12: 5Te8Y4drgCRfCx8ugdwuEX8KFC6k2EUu
+	 >> ls
+	 >> echo | cat data.txt | tr A-Za-z N-ZA-Mn-za-m
+level13: 
