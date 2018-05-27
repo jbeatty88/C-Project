@@ -1,3 +1,8 @@
+/*
+  Joshua Beatty
+  2018
+*/
+
 #include <iostream>
 #include <vector>
 #include <cctype>
