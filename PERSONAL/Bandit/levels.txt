@@ -50,4 +50,12 @@ level13: 8ZjyCRiBWFYkneahHwxCv3wb2a1ORpYL
 	 >> mv data data.gz
 	 >> gzip -d data.gz
 	 ...etc, do until get another ASCII file with password
-level14: 
+level14:
+	>> ls
+	** Either copy/paste key to localhost or scp **
+	>> chmod 600 ssh.private
+	>> ssh -p 2220 bandit14@bandit.labs.overthewire.org -i ssh.private
+level15: 4wcYUJFw0k0XLShlDzztnTBHiqxU3b3e
+	 >> cd ..
+	 >> cd etc/bandit_pass
+	 >> cat bandit14
