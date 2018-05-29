@@ -79,4 +79,4 @@ level21: gE269g2h3mw3pwgrj0Ha9Uoqen1c9DGr
 	 >> nc -l *Any unused port* < /etc/bandit_pass/bandit20
 	 ** open up new ssh **
 	 >> ./suconnect * unused port from above *
-level22:
+level22: t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv
