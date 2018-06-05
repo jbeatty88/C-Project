@@ -1,0 +1,103 @@
+level1: boJ9jbbUNNfktd78OOpsqOltutMc3MY1
+level2: CV1DtqXWVFXTvM2F0k09SHz0YwRINYA9
+	>> ls
+	>> cat ./-
+level3: UmHadQclWmgdLOKQ3YNgjWxGoRMb5luK
+	>> ls
+	>> cat spaces\ in\ this\ filename
+level4: pIwrPrtPN36QITSp3EQaw936yaFoFgAB
+	 >> ls
+	 >> cd inhere/
+	 >> ls -a
+	 >> cat .hidden
+level5: koReBOKuIDDepwhWk7jZC0RTdopnAYKh
+	>> ls
+	>> cd inhere/
+	>> cat ./fileXX
+level6: DXjZPULLxYr17uwoI01bNLQbtFemEgo7
+	>> ls
+	>> cd inhere/
+	>> find -type f -size 1033c
+	>> cd maybehere07/
+	>> ls -a
+	>> cat .file2
+level7: HKBPTKQnIay4Fw76bEy8PVxKEDQRKTzs
+	>> cd .. # Need to check the server from root
+	>> find . -type f -user bandit7 -group bandit6 -size 33c 2>/dev/null # Output all denied ones to a seperate file
+	>> cd ./var/lib/dpkg/info/
+	>> cat bandit7.password
+level8: cvX2JJa4CFALtqS87jk27qwqGhBM9plV
+	>> ls
+	>> grep -B5 -A5 'millionth' data.txt # Show 5 lines before and after match
+level9: UsvVyFSfZZWbi6wgC7dAFyFuR6jQQUhR
+	>> ls
+	>> sort data.txt | uniq -uc
+level10: truKLdjsbJ5g7yyJ2X2R0o3a5HQJFuLk
+	 >> ls
+	 >> strings data.txt
+level11: IFukwKGsFW8MOq3IRFqrxE1hxTNEbUPR
+	 >> ls
+	 >> base64 --decode data.txt
+level12: 5Te8Y4drgCRfCx8ugdwuEX8KFC6k2EUu
+	 >> ls
+	 >> echo | cat data.txt | tr A-Za-z N-ZA-Mn-za-m
+level13: 8ZjyCRiBWFYkneahHwxCv3wb2a1ORpYL
+	 >> ls
+	 >> cp data.txt /tmp/dyx
+	 >> file data.txt
+	 >> xxd -r data.txt >> data
+	 >> file data
+	 >> mv data data.gz
+	 >> gzip -d data.gz
+	 ...etc, do until get another ASCII file with password
+level14: 4wcYUJFw0k0XLShlDzztnTBHiqxU3b3e
+	>> ls
+	** Either copy/paste key to localhost or scp **
+	>> chmod 600 ssh.private
+	>> ssh -p 2220 bandit14@bandit.labs.overthewire.org -i ssh.private
+	#############################################################
+	 >> cd ..
+	 >> cd etc/bandit_pass
+	 >> cat bandit14
+level15: BfMYroe26WYalil77FoDi9qh59eK5xNr
+	 >> printf "{{ password14 }}" | nc localhost 30000
+
+level16: cluFn7wTiGryunymYOu4RcffSxQluehd
+	 >> openssl s_client -ign_eof -connect localhost:30001
+level17:  RSA PRIVATE KEY
+	  >> nmap -A -p 31000-32000 localhost
+	  >> openssl s_client -ign_eof -connect localhost:31790
+	  >> cluFn7wTiGryunymYOu4RcffSxQluehd
+level18: kfBf3eYk5BPBRzwjqutbbfE887SVc5Yd
+	 >> ls
+	 >> diff password.new password.old
+level19: IueksS7Ubh8G3DCwVzrTd8rAVOwq3M5x
+	 >> ssh -p 2220 bandit18@bandit.labs.overthewire.org "cat readme"
+level20: GbKksEFF4yrVs6il55v6gwY5aVje5f0j
+	 >> ./bandit20-do cat /../../etc/bandi_pass/bandit20
+level21: gE269g2h3mw3pwgrj0Ha9Uoqen1c9DGr
+	 >> nc -l *Any unused port* < /etc/bandit_pass/bandit20
+	 ** open up new ssh **
+	 >> ./suconnect * unused port from above *
+level22: Yk7owGAcWjwMVRwrTesJEwB7WVOiILLI
+	 >> cd /etc/cron.d
+	 >> ls
+	 >> cat *
+	 >> cd ../../usr/bin
+	 >> cat cronjob22.sh
+	 >> cat tmp/####number in cat ###
+level 23: jc1udXuA1tiHqjIsL8yaapX5XIAI6i0n
+      	>> cd /etc/cron.d
+	>> cd ../../usr/bin
+	>> cat cronjob23.sh
+	>> echo I am user bandit23 | md5sum | cut -d ' ' -f 1
+	>> cat /tmp/8ca319486bfbbc3663ea0fbe81326349
+level 24:
+      Shell script:
+      #!/bin/bash 
+
+      myname=$(whoami)
+      mytarget=$(echo I am user $myname | md5sum | cut -d ' ' -f 1)
+
+      echo "PASSWORD FOR LEVEL 24"
+      cat /etc/bandit_pass/bandit24 > /tmp/
