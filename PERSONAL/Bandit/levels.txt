@@ -133,4 +133,7 @@ level 25: uNG9O58gUE7snukf3bvZ0rxhtnjzSGzG
 	  pin += 1
       
       >> python brute.py
-level26:
+level26: ** MINIMIZE window when loggin in with PEM RSA key
+	 Enter vim editor >> v
+	 >> :e/etc/bandit_pass/bandit26
+level27: 5czgV9L3Xx8JPOyRbXh6lQbmIOWvPT6Z
