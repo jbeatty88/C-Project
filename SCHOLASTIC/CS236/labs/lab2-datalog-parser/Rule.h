@@ -1,5 +1,7 @@
 #pragma once                                                                                                                                                                                                      
-#include <string> 
+#include <string>
+
+/* rule    	->	headPredicate COLON_DASH predicate predicateList PERIOD */
 
 class Rule
 {                                                                                                                                                                                                  

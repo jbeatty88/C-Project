@@ -1,5 +1,10 @@
 #pragma once                                                                                                                                                                                                      
-#include <string> 
+#include <string>
+
+/* 
+parameter	->	STRING | ID | expression 
+parameterList	-> 	COMMA parameter parameterList | lambda
+*/
 
 class Parameter
 {                                                                                                                                                                                                  
