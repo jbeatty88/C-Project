@@ -1,1 +1,5 @@
 ## Solution for col@pwnable.kr port: 2222 pw:guest ##
+
+cmp eax, edx
+eax = 0xe30310f
+edx = 0x21dd09ec
