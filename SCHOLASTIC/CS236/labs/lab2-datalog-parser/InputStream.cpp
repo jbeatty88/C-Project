@@ -23,6 +23,10 @@ void InputStream::buildString(std::string fileName)
 	std::string line;
 	// Open input file
 	inputFile.open(fileName);
+	// Check if valid argument was entered
+	if(!inputFile.good()) {
+			throw invalid_argument("Valid filename not entered. Please try again.");
+		}
 	// Read input until EOF
 	while (getline(inputFile, line)) {
 		ss << line << endl;

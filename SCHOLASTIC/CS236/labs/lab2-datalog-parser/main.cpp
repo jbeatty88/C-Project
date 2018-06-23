@@ -2,22 +2,22 @@
 #include <vector>
 #include <cctype>
 #include <string>
+#include <fstream>
+#include <exception>
 #include "Lexer.h"
 
 using namespace std;
 
-int main(int argc, char* argv[]) {
-	if (argc == 1) {
-		cout << "Please enter file name!";
-		return -1;
+int main(int argc, char** argv) 
+{
+	// Verify argument was given
+	if(argc < 2) {
+		throw invalid_argument("Please enter a file name!");
 	}
 
 	Lexer lexer(argv[1]);
-	//InputStream input(argv[1]);
-	//input.PrintStr();
 	lexer.tokenize();
 	lexer.printV();
-
-
 	return 0;
+
 }
