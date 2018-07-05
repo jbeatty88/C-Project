@@ -13,7 +13,7 @@ void func(int key){
 	}
 }
 int main(int argc, char* argv[]){
-	func(0xdeadbeef);
+	func(0xcafebabe);
 	return 0;
 }
 

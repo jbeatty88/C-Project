@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <div id="root">
+
+      <input type="text" id="input" v-model="message">
+      <p> The value of input is {{ message }}.</p>
+
+    </div>
+    <div class="node">
+      <button type="button" name="button">{{ button }}</button>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+
+    <script>
+      new Vue({
+        el: '#root',
+        data: {
+          message: 'Hello World'
+        }
+      });
+      new Vue({
+        el: '.node',
+        data: {
+          button: 'JOSH'
+        }
+      })
+    </script>
+  </body>
+</html>

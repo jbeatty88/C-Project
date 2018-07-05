@@ -1,3 +1,5 @@
-break main
 break func
+break main
+break gets
+break system
 
