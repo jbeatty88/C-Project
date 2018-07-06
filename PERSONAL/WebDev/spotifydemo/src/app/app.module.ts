@@ -7,10 +7,12 @@ import { RouterModule, Routes } from '@angular/router';
 import { SearchComponent } from './components/search/search.component';
 import { AboutComponent } from './components/about/about.component';
 import { HttpModule } from '@angular/http';
+import { WeddingComponent } from './components/wedding/wedding.component';
 
 const appRoutes: Routes = [
   { path: '', component: SearchComponent },
   { path: 'about', component: AboutComponent },
+  { path: 'wedding', component: WeddingComponent},
 ];
 
 @NgModule({
@@ -19,6 +21,7 @@ const appRoutes: Routes = [
     NavbarComponent,
     SearchComponent,
     AboutComponent,
+    WeddingComponent,
   ],
   imports: [
     RouterModule.forRoot(
