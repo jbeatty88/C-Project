@@ -1,0 +1,23 @@
+h1 {
+    text-align: center;
+    font-size: 100px;   
+}
+
+div {
+    animation: loaderanimation 2s linear 0s infinite reverse;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    border-top: 20px solid rgb(252, 61, 61);
+    border-right: 20px solid rgb(175, 171, 171);
+    border-left: 20px solid rgb(175, 171, 171);;
+    border-bottom: 20px solid rgb(63, 149, 248);
+    margin: 0 auto;    
+}
+
+@keyframes loaderanimation {
+    0% {
+        transform: translateX(850px);
+        transform: rotate(360deg);
+    }
+}
