@@ -1,0 +1,14 @@
+class Dna:
+    def __init__(self):
+        self.r_id = ''
+        self.dna = ''
+        self.gc_content = 0
+
+strand1 = Dna()
+strand2 = Dna()
+
+strand1.r_id = '>Rosalind_6404'
+strand1.dna = 'CCTGCGGAAGATCGGCACTAGAATAGCCAGAACCGTTTCTCTGAGGCTTCCGGCCTTCCCTCCCACTAATAATTCTGAGG'
+strand1.gc_content = 35
+
+print('The GC content of %s is %d' % (strand1.r_id, strand1.gc_content))
