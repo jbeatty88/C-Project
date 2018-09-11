@@ -1,0 +1,9 @@
+#include <iostream>
+
+class Person {
+ private:
+  std::string greeting = "Hello!";
+
+ public:
+  void Greet();
+}
