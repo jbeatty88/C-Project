@@ -1,0 +1,8 @@
+#include <iostream>
+#include "inherit.h"
+
+Parents::Parent(){}
+
+~Parents::Parents(){
+	
+}
