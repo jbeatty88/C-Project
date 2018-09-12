@@ -1,0 +1,9 @@
+JAVACRIPT EXAMPLE
+
+<script>
+	func funcName(event) {
+	     document.getElementById("demo").innerHTML = "Hello " + document.getElementById("form").value;
+	     event.preventDefault();
+</script>
+
+For lab one we are able to use bootstrap
