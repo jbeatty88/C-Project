@@ -1,0 +1,28 @@
+#pragma once
+
+#include <iostream>
+#include <sstream>
+
+enum token {
+  COMMA,
+  PERIOD,
+  Q_MARK,
+  LEFT_PAREN,
+  RIGHT_PAREN,
+  COLON
+};
+
+class Token {
+ private:
+  std::string tokenString;
+  int tokenLineNum;
+  token tokenType;
+  
+ public:
+  Token(std::string val, int ln, token tt );
+  ~Token();
+  std::string EnumString(token tt);
+  void FormatPrint();
+  
+  
+};

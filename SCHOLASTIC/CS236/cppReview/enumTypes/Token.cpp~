@@ -1,0 +1,38 @@
+#include "Token.h"
+
+Token::Token(std::string val, int ln, token tt): tokenString(val), tokenLineNum(ln), tokenType(tt)  {
+  //std::cout << "Creating a TOKEN object" << std::endl;
+  //std:: cout << "VALUE: " << this->tokenString << std::endl;
+  //std::cout << "LINE NUMBER: " << this->tokenLineNum << std::endl;
+  //std::cout << "TOKEN TYPE: " << this->tokenType << std::endl;
+  //FormatPrint();
+};
+
+Token::~Token(){ /*std::cout << "Deleting a TOKEN object" << std::endl;*/ };
+
+std::string Token::EnumString(token tt) {
+  switch(tt) {
+  case COMMA:
+    return "COMMA";
+  case PERIOD:
+    return "PERIOD";
+  case Q_MARK:
+    return "Q_MARk";
+  case LEFT_PAREN:
+    return "LEFT_PAREN";
+  case RIGHT_PAREN:
+    return "RIGHT_PAREN";
+  case COLON:
+    return "COLON";
+  default:
+    return "NONE";
+  }
+}
+
+void Token::FormatPrint() {
+  std::stringstream ss;
+  ss << "(" << EnumString(tokenType) << "," << "\"" << tokenString << "\"" << "," << tokenLineNum << ")";
+  std::cout << ss.str() << std::endl;
+  std::cout << std::endl;
+}
+
