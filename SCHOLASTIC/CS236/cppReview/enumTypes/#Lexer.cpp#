@@ -32,6 +32,7 @@ void Lexer::MapVec(int vecSize, std::vector<std::string> inVec) {
       else if(inVec[i][y] == 'Q') { QueriesCheck(inVec, i, y); }
       else if(inVec[i][y] == '\'') { StringCheck(inVec, i, y); }
       else if(inVec[i][y] == '#') { CommentCheck(inVec, i, y); }
+      //FIXME: NEED TO RETURN AN INDEX TO SKIP ALREADY-TOKENIZED ITEMS
       //else { Undefined(inVec, i, y); }
       //else { IDCheck(inVec, i, y); }
     }

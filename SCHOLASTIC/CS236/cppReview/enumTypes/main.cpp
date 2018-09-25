@@ -14,7 +14,7 @@ int main(int argc, char** argv) {
 
   Lex.PrintVec(inStream.MakeInputVec());
   Lex.MapVec(inStream.GetVecSize(),inStream.MakeInputVec());
-  
+
   
 
 

@@ -10,5 +10,5 @@ with open(input_file, 'r') as dna_seq:
 for line in sequences:
     seq_arr = np.append(seq_arr, line)
 
-print(seq_arr[1:] == seq_arr[:-1])
+print(seq_arr[1:] = seq_arr[:-1])
 

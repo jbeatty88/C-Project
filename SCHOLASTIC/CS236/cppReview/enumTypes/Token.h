@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <sstream>
+#include <vector>
 
 enum token {
   COMMA,
@@ -9,7 +10,19 @@ enum token {
   Q_MARK,
   LEFT_PAREN,
   RIGHT_PAREN,
-  COLON
+  COLON,
+  COLON_DASH,
+  MULTIPLY,
+  ADD,
+  SCHEMES,
+  FACTS,
+  RULES,
+  QUERIES,
+  STRING,
+  COMMENT,
+  ID,
+  UNDEFINED,
+  ENDOFILE
 };
 
 class Token {
@@ -18,6 +31,7 @@ class Token {
   int tokenLineNum;
   token tokenType;
   char tokenChar;
+  std::vector<std::string> tokenStringsVec;
   
  public:
   Token(std::string val, int ln, token tt );
@@ -26,6 +40,7 @@ class Token {
   std::string EnumString(token tt);
   void FormatPrint();
   void FormatCharPrint();
+  void PrintVec(std::vector<std::string> tokenStringsVec);
   
   
 };

@@ -17,6 +17,7 @@ void InputStream::PrintVec() {
 std::vector<std::string> InputStream::MakeInputVec() {
   while(inFile.good()) {
     std::getline(inFile, this->line);
+    //this->line += '\n';
     inputVec.push_back(this->line);
   };
 
