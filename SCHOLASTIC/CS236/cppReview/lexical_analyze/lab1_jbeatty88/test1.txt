@@ -1,0 +1,39 @@
+'Single Line Cases'
+.
+,
+'a string'
+#A comment
+Schemes
+FactsRules
+::-
+?
+(
+)
+:
+:-
+*
++
+Schemes
+Facts
+Rules
+Queries
+SCHEMES
+A1
+B22
+'Hello George'
+'My name''s Josh'
+#Here is a comment
+# Here is another comment
+# Here 'is a comment'
+&
+%
+Hello Josh
+h 
+e
+'hello
+hello 
+' this is a bad ''
+' '
+# Here is a comment
+that is undefined and defined
+#I tried to skip a line
