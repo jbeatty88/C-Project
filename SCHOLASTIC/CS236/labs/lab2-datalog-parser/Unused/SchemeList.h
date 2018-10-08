@@ -6,6 +6,7 @@
 class SchemeList
 {
  private:
+ 
  public:
   std::string toString();
-}
+};

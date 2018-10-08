@@ -1,5 +1,5 @@
-
 #pragma once
+#include <iostream>
 #include <string>
 
 // Datalog Language in a nutshell
@@ -28,14 +28,22 @@ enum TokenType {
 class Token
 {
 private:
-	std::string val;
 	TokenType type;
-	int lineNum;
-	std::string enumToString(TokenType tt);
+	std::string strVal;
+	size_t lineNum;
+	//std::vector<std::string> outputVec;
+	std::string EnumString(TokenType tt) const;
 
 public:
-	Token(TokenType type, std::string val, int lineNum);
+	Token(TokenType type = UNDEFINED, std::string val = "", size_t lineNum = 0);
 	~Token();
-	std::string toString();
+	std::string ToString();
+	TokenType GetTokenType();
+	std::string GetTokenVal();
+	size_t GetTokenLineNum();
+	friend std::ostream &operator<< ( std::ostream &output, const Token &T) {
+		output << "Token: " << T.EnumString(T.type) << " Str: " << T.strVal << " Line Number: " << T.lineNum;
+		return output;
+	};
 };
 

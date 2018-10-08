@@ -3,8 +3,7 @@
 using namespace std;
 
 // This is where we get our tokentype for the output
-std::string Token::enumToString(TokenType tt)
-{
+std::string Token::EnumString(TokenType tt) const {
 	switch (tt) {
 	case COMMA:
 		return "COMMA";
@@ -50,10 +49,9 @@ std::string Token::enumToString(TokenType tt)
 }
 
 
-Token::Token(TokenType type, string val, int lineNum)
-{
+Token::Token(TokenType type, string val, size_t lineNum) {
 	this->type = type;
-	this->val = val;
+	this->strVal = val;
 	this->lineNum = lineNum;
 }
 
@@ -61,7 +59,12 @@ Token::Token(TokenType type, string val, int lineNum)
 Token::~Token(){}
 
 // We take the tokentype, value from input, and line number and output it
-std::string Token::toString()
-{
-	return "(" + enumToString(type) + ",\"" + val + "\"," + to_string(lineNum) + ")";
+std::string Token::ToString() {
+	return "(" + EnumString(type) + ",\"" + strVal + "\"," + to_string(lineNum) + ")";
 }
+
+TokenType Token::GetTokenType() { return type; }
+
+std::string Token::GetTokenVal() {return strVal; }
+
+size_t Token::GetTokenLineNum() { return lineNum; }

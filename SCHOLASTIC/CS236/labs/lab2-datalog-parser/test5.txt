@@ -1,0 +1,75 @@
+#| This should be a FAILURE because of empty queries |#
+
+Schemes:
+  Name(First, Last)
+  City(Name)
+  Coordinates(X, Y)
+  Age(A)
+  Children(K)
+  snap(S,N,A,P)
+  HasSameAddress(X,Y)
+  NameHasID(N,S)
+  Plot(X,Y)
+  Graph(Y,Z)
+  Calc(X,Y,Z)
+  Derive(X)
+  Multiply(X, Y)
+  Distance(C1, C2)
+  Weather(Coord)
+  Population(C)
+
+Facts: 
+  Name('Clark', 'Kent').
+  Name('Lex', 'Luther').
+  City('Smallville').
+  City('Metropolis').
+  Coordinates('143', '231').
+  Coordinates('149', '240'). 
+  Age('26').
+  Age('34').
+  Children('0').
+  Children('0').
+  snap('12345','C. Brown','12 Apple','555-1234').
+  snap('33333','Snoopy','12 Apple','555-1234').
+  snap('67890','L. Van Pelt','34 Pear','555-5678').
+  Name('Clark', 'Kent').
+  Name('Lex', 'Luther').
+  City('Smallville').
+  City('Metropolis').
+  Coordinates('143', '231').
+  Coordinates('149', '240'). 
+  Age('26').
+  Age('34').
+  Children('0').
+  Children('0').
+  snap('12345','C. Brown','12 Apple','555-1234').
+  snap('33333','Snoopy','12 Apple','555-1234').
+  snap('67890','L. Van Pelt','34 Pear','555-5678').
+  Name('Clark', 'Kent').
+  Name('Lex', 'Luther').
+  City('Smallville').
+  City('Metropolis').
+  Coordinates('143', '231').
+  Coordinates('149', '240'). 
+  Age('26').
+  Age('34').
+  Children('0').
+  Children('0').
+  snap('12345','C. Brown','12 Apple','555-1234').
+  snap('33333','Snoopy','12 Apple','555-1234').
+  snap('67890','L. Van Pelt','34 Pear','555-5678').
+  
+
+Rules:
+  Plot(X,Y) :- Name(F,L),City(N).
+  Graph(Y,Z) :- City(N),Coordinates(X, Y).
+  Calc(X,Y,Z) :- Age(A).
+  Derive(X) :- Children(K).
+  Multiply(Y) :- Children(K),Age(A).
+  Distance(C1, C2) :- Coordinates(X, Y),Coordinates(X, Y).
+  Weather(Coord) :- Coordinates(X, Y).
+  Population(C) :- City(N).
+  HasSameAddress(X,Y) :- snap(A,X,B,C),snap(D,Y,B,(E+C)).
+  NameHasID(N,S) :- snap(S,N,A,P).
+
+Queries:

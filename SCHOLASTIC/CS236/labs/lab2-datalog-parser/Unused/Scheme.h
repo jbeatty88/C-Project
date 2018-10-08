@@ -4,7 +4,11 @@
 /* scheme   	-> 	ID LEFT_PAREN ID idList RIGHT_PAREN */
 
 class Scheme{                                                                                                                                                                                                  
- private:                                                                                                                                                                                                          
+ private:
+
  public:
-  std::string toString();
-}   
+  Scheme();
+  ~Scheme();
+  void Parse();
+  std::string ToString();
+};

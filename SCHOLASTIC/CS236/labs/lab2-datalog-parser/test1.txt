@@ -1,0 +1,21 @@
+#| Simple DataLog SUCCESS test input
+This test case only tests basic functionality with a very 
+simple test input. |#
+
+Schemes:
+  SimpleID(I,D)
+
+# So far so good
+
+  Plot(X,Y)
+
+Facts: 
+#This is still in the grammar
+  SimpleID('8012824847','Clark Kent','Smallville','80931').
+  SimpleID('356-239-2399','Lex Luther','Metropolis','80934').
+
+Rules:
+  Plot(X,Y) :- SimpleID(A,X,B,C),SimpleID(D,Y,B,(E+C)).
+
+Queries:
+  Plot('Clark Kent',Who)?

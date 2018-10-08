@@ -1,0 +1,241 @@
+#| Long Datalog FAILURE test input. This test case 
+is meant to test that the parser can ignore many comments and whitespaces
+but also catch an error amongst all of the commetns and whitespace |#
+
+
+
+
+
+Schemes:
+  Name(First, Last)
+  City(Name)
+  Coordinates(X, Y)
+  Age(A)
+
+
+
+# A medium space here
+
+
+
+
+  Children(K)
+  snap(S,N,A,P)
+  HasSameAddress(X,Y)
+  NameHasID(N,S)
+  Plot(X,Y)
+  Graph(Y,Z)
+  Calc(X,Y,Z)
+  Derive(X)
+
+
+
+
+# A small space here
+
+
+
+  Multiply(X, Y)
+  Distance(C1, C2)
+  Weather(Coord)
+  Population(C)
+
+
+
+
+
+Facts: 
+
+
+
+  Name('Clark', 'Kent').
+  Name('Lex', 'Luther').
+  City('Smallville').
+  City('Metropolis').
+  Coordinates('143', '231').
+  Coordinates('149', '240'). 
+  Age('26').
+  Age('34').
+  Children('0').
+
+  Children('0').
+  snap('12345','C. Brown','12 Apple','555-1234').
+  snap('33333','Snoopy','12 Apple','555-1234').
+  snap('67890','L. Van Pelt','34 Pear','555-5678').
+  Name('Clark', 'Kent').
+  Name('Lex', 'Luther').
+
+
+
+  City('Smallville').
+  City('Metropolis').
+  Coordinates('143', '231').
+  Coordinates('149', '240'). 
+  Age('26').
+  Age('34').
+  Children('0').
+  Children('0').
+
+
+
+  snap('12345','C. Brown','12 Apple','555-1234').
+  snap('33333','Snoopy','12 Apple','555-1234').
+  snap('67890','L. Van Pelt','34 Pear','555-5678').
+  Name('Clark', 'Kent').
+  Name('Lex', 'Luther').
+  City('Smallville').
+  City('Metropolis').
+  Coordinates('143', '231').
+  Coordinates('149', '240'). 
+  Age('26').
+  Age('34').
+  Children('0').
+  Children('0').
+  snap('12345','C. Brown','12 Apple','555-1234').
+  snap('33333','Snoopy','12 Apple','555-1234').
+  snap('67890','L. Van Pelt','34 Pear','555-5678').
+
+  
+
+Rules:
+  Plot(X,Y) :- Name(F,L),City(N).
+  Graph(Y,Z) :- City(N),Coordinates(X, Y).
+  Calc(X,Y,Z) :- Age(A).
+  Derive(X) :- Children(K).
+  Multiply(Y) :- Children(K),Age(A).
+
+
+
+
+# A medium space here
+
+
+
+
+
+  Distance(C1, C2) :- Coordinates(X, Y),Coordinates(X, Y).
+  Weather(Coord) :- Coordinates(X, Y).
+  Population(C) :- City(N).
+  HasSameAddress(X,Y) :- snap(A,X,B,C),snap(D,Y,B,(E+C)).
+  NameHasID(N,S) :- snap(S,N,A,P).
+
+Queries:
+  Plot('Clark Kent', 'Smallville')?
+  Graph('Smallville', '143, 231')?
+  Calc('34')?
+  Derive('0')?
+  Multiply('0', '34')?
+  Distance('143, 231', '149, 240')?
+  Weather('143', '231')?
+  Population('Metropolis')?
+  HasSameAddress('Snoopy',Who)?
+  NameHasID('Snoopy',Id)?
+  Plot('Lex Luther', 'Metropolis')?
+  Graph('Metropolis', '143, 231')?
+  Calc('26')?
+  Derive('0')?
+
+
+
+
+
+
+
+
+
+
+
+
+# A big space here
+
+
+
+
+
+
+
+
+
+
+
+
+Derive(%)! #<----- This we where the error should be. White space shouldn't matter
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# A big space here
+# A big space here
+# A big space here
+# A big space here
+# A big space here
+# A big space here
+#| A Multiline comments
+
+
+
+
+just of
+
+
+
+Spce 
+
+
+|#
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  Multiply('0', '26')?
+  Distance('143, 231', '149, 240')?
+  Weather('143', '231')?
+  Population('Smallville')?
+  HasSameAddress('Lex',Who)?
+  NameHasID('Lex',Id)?
+  Plot('Snoopy', 'Smallville')?
+  Graph('Smallville', '143, 231')?
+  Calc('34')?
+  Derive('0')?
+
+
+
+
+
+  Multiply('0', '34')?
+  Distance('143, 231', '149, 240')?
+  Weather('143', '231')?
+  Population('Metropolis')?
+  HasSameAddress('Snoopy',Who)?
+  NameHasID('Snoopy',Id)?

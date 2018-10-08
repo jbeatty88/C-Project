@@ -1,33 +1,52 @@
 #include "Lexer.h"
 
-Lexer::Lexer(std::string fileName) : input(fileName){}
+Lexer::Lexer(std::string fileName) : input(fileName){
+	Automata();
+}
 
 Lexer::~Lexer(){}
 
-void Lexer::tokenize()
-{
-	while (input.now() != '\0') {
-		defType = UNDEFINED;
-		defStr = "";
-		char c = input.now();
-		readSingleChar(c);
-		readColonDash();
-		readKeyword(c);
-		readId(c);
-		readString(c);
-		readComment(c);
-		readWhitespace(c);
-		readNone(c);
-
-		pushOn(defType, defStr, input.getCurrentLine());
-		input.advanceBy(defStr.length());
+void Lexer::Automata() {
+	while (input.Current() != '\0') {
+		defaultType = UNDEFINED;
+		defaultStr = "";
+		char c = input.Current();
+		CharMachine(c);
+		ColonMachine();
+		KeywordMachine(c);
+		IDMachine(c);
+		StringMachine(c);
+		CommentMachine(c);
+		WhitespaceMachine(c);
+		UndefinedMachine(c);
+		
+		if(defaultType != COMMENT) 
+			MakeTokenVec(defaultType, defaultStr, input.GetCurrentLine() + 1);
+		// MakeTokenVec(defaultType, defaultStr, input.GetCurrentLine() + 1);
+		input.AdvanceBy(defaultStr.length());
 	}
-	pushOn(ENDOFILE, "", input.getCurrentLine());
+	MakeTokenVec(ENDOFILE, "", input.GetCurrentLine() + 1);
 }
 
+// void Lexer::UnderTheHood(std::string prevCode) {
+//     // Strictly for personal debugging purposes
+//     std::cout << "\n\033[1;4;31mVALUES AFTER: \033[m" << "\033[1m" <<  prevCode << "\033[0m";
 
-void Lexer::readSingleChar(char c)
-{
+//     //std::cout << "\n\033[1;36mCURRENT STRING: \033[0m" << "\033[1;7m" << currentStr << "\033[0m";
+//     //std::cout << "\n\033[1;32mLINE LENGTH: \033[0m " << "\033[1;7m" << input.GetCurrentLength() << "\033[0m";
+//     std::cout << "\n\033[1;32mLINE: \033[0m" << "\033[1;7m" << input.GetCurrentLine() << "\033[0m";
+
+//     std::cout << "\n\033[1;32mCURRENT INDEX: \033[0m" << "\033[1;7m" << input.GetCurrentIdx() << "\033[0m";
+//     std::cout << "\n\033[1;36mCURRENT VALUE: \033[0m " << "\033[1;7m" << input.Current() << "\033[0m";
+
+//     std::cout << "\n\033[1;36mNEXT VALUE: \033[0m " << "\033[1;7m" << input.Next(1) << "\033[0m";
+//     //std::cout << "\n\033[1;32mVEC SIZE: \033[0m " << "\033[1;7m" << input.GetVecSize() << "\033[0m" << "\n\n";
+
+// }
+
+void Lexer::CharMachine(char c) {
+	// Each of these can be thought of as simple 2 state FSA's
+    // >O ch-> 0
 	tmpStr = c;
 
 	switch (c) {
@@ -57,198 +76,205 @@ void Lexer::readSingleChar(char c)
 	  break;
 	default:
 	  tmpStr = "";
-		tmpType = WHITESPACE; //FIXME: This needs to catch \n not WHITESPACE, this is just a temp fix
+		tmpType = WHITESPACE;
 		break;
 	}
 
-	setDefTypeStr(tmpStr, tmpType);
+	SetDefaults(tmpStr, tmpType);
 }
 
-void Lexer::readColonDash()
-{
-	if (tmpStr == ":")
-	{
-		if (input.lookAhead(1) == '-')
-		{
+void Lexer::ColonMachine() {
+	// This machine has two accept states
+	// Accept Case 1: >O ':'-> 0
+	if (tmpStr == ":") {
+		// Accept Case 2: >O ':'-> '-' -> 0
+		if (input.Next(1) == '-') {
 			tmpStr = ":-";
 			tmpType = COLON_DASH;
 		}
 	}
-	setDefTypeStr(tmpStr, tmpType);
+	SetDefaults(tmpStr, tmpType);
 }
 
-void Lexer::readKeyword(char c)
-{
+void Lexer::KeywordMachine(char c) {
+	// This machine has 4 accept states
 	std::string keyword = "";
 	switch (c) {
+	// Accept Case 1: >O 'S'-> 'c' -> 'h' -> 'e' -> 'm' -> 'e' -> 's' -> 0
 	case 'S': {
 		keyword = "Schemes";
 		tmpType = SCHEMES;
 	}
 			  break;
+	// Accept Case 2: >O 'F'-> 'a' -> 'c' -> 't' -> 's' -> 0
 	case 'F': {
 		keyword = "Facts";
 		tmpType = FACTS;
 	}
 			  break;
+	// Accept Case 3: >O 'R'-> 'u' -> 'l' -> 'e' -> 's' -> 0
 	case 'R': {
 		keyword = "Rules";
 		tmpType = RULES;
 	}
 			  break;
+	// Accept Case 4: >O 'Q'-> 'u' -> 'e' -> 'r' -> 'i' -> 'e' -> 's' -> 0
 	case 'Q': {
 		keyword = "Queries";
 		tmpType = QUERIES;
 	}
 			  break;
 	}
-	for (unsigned int i = 0; i < keyword.length(); i++) {
-		if ((input.lookAhead(i)) == keyword[i]) {
+    // This handles the accept state: if -> 0 -> E (Sink state for non-keyword)
+	for (size_t i = 0; i < keyword.length(); i++) {
+		if ((input.Next(i)) == keyword[i])
 			tmpStr += keyword[i];
-		}
 		else {
 			keyword = "";
 			tmpStr = "";
 		}
 	}
-	setDefTypeStr(tmpStr, tmpType);
+	SetDefaults(tmpStr, tmpType);
 }
 
-void Lexer::readId(char c)
-{
+void Lexer::IDMachine(char c) {
 	if (isalpha(c)) {
-		// string temp_id_string;
-		// temp_id_string += c;
+		// This machine has 3 states (unless you count the keyword sink states)
 		tmpStr = c;
-		int i = 1;
-		while (isalnum(input.lookAhead(i))) {
-			tmpStr += input.lookAhead(i);
+		size_t i = 1;
+		while (isalnum(input.Next(i))) {
+			// Transition state: O [a-zA-Z0-9] <@- ^[a-zA-Z0-9] -> 0 (State transitions to itself for any alnum)
+			tmpStr += input.Next(i);
 			i++;
 		}
 		tmpType = ID;
-		setDefTypeStr(tmpStr, tmpType);
+		SetDefaults(tmpStr, tmpType);
 	}
 }
 
-void Lexer::readString(char c)
-{
+void Lexer::StringMachine(char c) {
+	// Start State: >O '\''->
 	if (c == '\'') {
 		tmpStr = c;
 		bool endofstring = false;
-		int i = 1;
+		size_t i = 1;
+		// Transition states: O ^['\''] <@ (Transitions back to itself)
 		while (!endofstring) {
-			if ((input.lookAhead(i) == '\'') && (input.lookAhead(i + 1) != '\'')) {
+			// Accept State: '\'' -> 0
+			if ((input.Next(i) == '\'') && (input.Next(i + 1) != '\'')) {
 				tmpStr += '\'';
 				endofstring = true;
 				tmpType = STRING;
 			}
-			else if ((input.lookAhead(i) == '\'') && (input.lookAhead(i + 1) == '\''))
-			{
+			else if ((input.Next(i) == '\'') && (input.Next(i + 1) == '\'')) {
 				tmpStr += '\'';
 				tmpStr += '\'';
 				i += 2;
 			}
 			else {
-				if (input.lookAhead(i) != '\0') {
-					tmpStr += input.lookAhead(i);
+				if (input.Next(i) != '\0') {
+					tmpStr += input.Next(i);
 					i++;
 				}
 				else {
 					tmpType = UNDEFINED;
 					endofstring = true;
-					setDefTypeStr(tmpStr, tmpType);
+					SetDefaults(tmpStr, tmpType);
 					return;
 				}
 			}
 		}
 	}
-	setDefTypeStr(tmpStr, STRING);
+	SetDefaults(tmpStr, STRING);
 }
 
-void Lexer::readComment(char c)
-{
+void Lexer::CommentMachine(char c) {
+	// This machine has 2 separate branches that lead to accept states
 	if (c == '#') {
+		// Start State: >O '#' -> O
 		tmpStr = c;
-		int i = 1;
-		bool multiline = false;
-		bool endofcomment = false;
-		if (input.lookAhead(1) == '|') {
-			multiline = true;
+		size_t i = 1;
+		bool multiLineComment = false;
+		bool isEnd = false;
+		if (input.Next(1) == '|') {
+			// '|' -> O ^(['|']['#']) <@ ['|'] -> O ['#'] -> 0
+			multiLineComment = true;
 			tmpStr += '|';
 			i++;
 		}
-		if (!multiline) {
-			while (!endofcomment) {
-				if ((input.lookAhead(i) == '\n') || (input.lookAhead(i) == '\0')) {
-					endofcomment = true;
-				}
+		if (!multiLineComment) {
+			while (!isEnd) {
+				if ((input.Next(i) == '\n') || (input.Next(i) == '\0'))
+					isEnd = true;
 				else {
-					tmpStr += input.lookAhead(i);
+					tmpStr += input.Next(i);
 					i++;
 				}
 			}
 			// temp_token_type = COMMENT;
 		}
 		else {
-			while (!endofcomment) {
-				if ((input.lookAhead(i) == '|') && (input.lookAhead(i + 1) == '#')) {
-					endofcomment = true;
+			// -> O ^ ['\n'] <@ ['\n'] -> 0
+			while (!isEnd) {
+				if ((input.Next(i) == '|') && (input.Next(i + 1) == '#')) {
+					isEnd = true;
 					tmpStr += "|#";
 				}
-				else if (input.lookAhead(i) == '\0') {
-					endofcomment = true;
+				else if (input.Next(i) == '\0') {
+					isEnd = true;
 					tmpType = UNDEFINED;
-					setDefTypeStr(tmpStr, tmpType);
+					SetDefaults(tmpStr, tmpType);
 					return;
 				}
 				else {
-					tmpStr += input.lookAhead(i);
+					tmpStr += input.Next(i);
 					i++;
 				}
 			}
 		}
 		tmpType = COMMENT;
 	}
-	setDefTypeStr(tmpStr, tmpType);
+	SetDefaults(tmpStr, tmpType);
 }
 
-void Lexer::readWhitespace(char c)
-{
+// void MultiLineCommentHandler() {}
+
+void Lexer::WhitespaceMachine(char c) {
+	// This machine handles whitespace not already handled
 	if (isspace(c)) {
 		tmpStr = c;
-		setDefTypeStr(tmpStr, WHITESPACE);
+		SetDefaults(tmpStr, WHITESPACE);
 	}
 }
 
-void Lexer::readNone(char c)
-{
+void Lexer::UndefinedMachine(char c) {
+	// This machine handles anything not already handled
 	tmpStr = c;
 	tmpType = UNDEFINED;
-	setDefTypeStr(tmpStr, tmpType);
+	SetDefaults(tmpStr, tmpType);
 }
 
-void Lexer::pushOn(TokenType tt, std::string v, int ln)
-{
+void Lexer::MakeTokenVec(TokenType tt, std::string v, size_t ln) {
 	if (tt != WHITESPACE) {
 		Token newToken(tt, v, ln);
 		tokens.push_back(newToken);
 	}
 }
 
-void Lexer::setDefTypeStr(std::string s, TokenType t)
-{
-	if (tmpStr.length() > defStr.length()) {
-		defStr = tmpStr;
-		defType = tmpType;
+void Lexer::SetDefaults(std::string s, TokenType t) {
+	if (tmpStr.length() > defaultStr.length()) {
+		defaultStr = tmpStr;
+		defaultType = tmpType;
 	}
 }
 
-void Lexer::printV()
-{
-	for (unsigned int i = 0; i < tokens.size(); i++)
-	{
-		std::cout << tokens[i].toString() << std::endl;
+void Lexer::PrintVec() {
+	for (size_t i = 0; i < tokens.size(); i++) {
+		std::cout << tokens[i].ToString() << std::endl;
 	}
 	std::cout << "Total Tokens = " << tokens.size();
 	std::cout << std::endl;
 }
+
+std::vector<Token> Lexer::GetTokenVec() { return tokens; }
+
