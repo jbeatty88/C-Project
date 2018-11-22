@@ -27,14 +27,15 @@ enum TokenType {
 class Token
 {
 private:
-	std::string val;
 	TokenType type;
-	int lineNum;
-	std::string enumToString(TokenType tt);
+	std::string strVal;
+	size_t lineNum;
+	//std::vector<std::string> outputVec;
+	std::string EnumString(TokenType tt);
 
 public:
-	Token(TokenType type, std::string val, int lineNum);
+	Token(TokenType type, std::string val, size_t lineNum);
 	~Token();
-	std::string toString();
+	std::string ToString();
 };
 

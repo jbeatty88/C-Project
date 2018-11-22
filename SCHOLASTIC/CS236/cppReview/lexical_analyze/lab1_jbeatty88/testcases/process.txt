@@ -1,0 +1,5 @@
+.
+'a string'
+'Josh''s string'
+'Josh''s str()'
+' '

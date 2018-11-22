@@ -1,102 +1,72 @@
 #include "InputStream.h"
 
-using namespace std;
-
-InputStream::InputStream(std::string fileName)
-{
-	currentLine = 0;
-	currentLoc = 0;
-	atEnd = false;
-	buildString(fileName);
-}
-
+InputStream::InputStream(std::string fileName) { MakeInputString(fileName); }
 
 InputStream::~InputStream(){}
 
-void InputStream::buildString(std::string fileName)
-{
-	// input file variable
-	ifstream inputFile;
+void InputStream::MakeInputString(std::string fileName) {
+	// Declare input file var initialized with user fileName
+	std::ifstream inputFile(fileName);
 	// Our string parsing variable
-	stringstream ss;
-	//char c;
+	std::stringstream ss;
+
 	std::string line;
-	// Open input file
-	inputFile.open(fileName);
 	// Read input until EOF
-	while (getline(inputFile, line)) {
-		ss << line << endl;
+	while (std::getline(inputFile, line)) {
+		ss << line << std::endl;
 	}
 	// Set string object from input file
+	//PrintVec(inVec);
 	str = ss.str();
-	// Close file
-	inputFile.close();
-	if (str.length() > 0) {
-		currentLine++;
-	}
+	//std::cout << str << std::endl;
 }
 
-/*void InputStream::PrintStr() {
-	std::cout << str << endl;
-}*/
-
-void InputStream::advanceBy(int n)
-{
+void InputStream::AdvanceBy(size_t n) {
 	// Advance by n
-	for (int i = 0; i < n; i++) {
+	for (size_t i = 0; i < n; i++) {
 		// Check if value at current location is a new line
-		if (now() == '\n')
-		{
+		if (Current() == '\n')
 			// If so, increment line number
 			currentLine++;
-		}
 		// Increment location idx by n
-		currentLoc++;
+		currentPos++;
 	}
 }
 
-char InputStream::now()
-{
+char InputStream::Current() {
 	//  Check if we're at the end of the file
-	if (currentLoc > str.length()) {  //FIXME: Should this be >= or just >
+	if (currentPos > str.length()) // Should this be >= or just >, I guess i'll find out
 		return '\0';
-	}
+	
 	// If not, return str value at current location
-	else {
-		return str[currentLoc];
-	}
+	else 
+		return str[currentPos];
+	
 }
 
-char InputStream::lookAhead(int i)
-{
+char InputStream::Next(size_t i) {
 	// Check if able to look ahead
-        if (currentLoc + i <= str.length()) {
-		return str[currentLoc + i];
-	}
-	else {
+    if (currentPos + i <= str.length()) 
+		return str[currentPos + i];
+	else 
 		return '\0';
-	}
 }
 
 // Check if at end of file
-bool InputStream::isAtEnd()
-{
-	return atEnd;
-}
+bool InputStream::IsEnd() { return isEnd; }
 
-// Print our string obj made from input file
-void InputStream::print()
-{
-	cout << str;
-}
+// Prsize_t our string obj made from input file
+void InputStream::PrintString() { std::cout << str; }
 
 // What is the current location
-int InputStream::getCurrentLoc()
-{
-	return currentLoc;
-}
+size_t InputStream::GetCurrentPos() { return currentPos; }
+
 // What is the current line
-int InputStream::getCurrentLine()
+size_t InputStream::GetCurrentLine() { return currentLine; }
+
+// Print a vector of strings
+/*void InputStream::PrintVec(std::vector<std::string> stringVec) 
 {
-	return currentLine;
-}
+	//for(std::vector<std::string>::iterator itr = stringVec.begin(); itr != stringVec.end(); ++itr)
+		//std::cout << ' ' << *itr << std::endl;
+}*/

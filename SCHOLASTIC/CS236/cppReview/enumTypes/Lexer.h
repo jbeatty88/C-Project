@@ -6,16 +6,20 @@
 #include <ctype.h>
 #include <sstream>
 #include "Token.h"
+#include "InputStream.h"
 
 class Lexer {
- private:
-  //typedef std::map<std::string, std::map<std::string, int>> mapType;
-  //mapType tokenMap;
-  //std::map<std::string, std::map<std::string, int>> tokenMap;
+ private: 
   std::vector<Token> tokenVec;
+  std::vector<std::string> inVec;
+  int currLine;
+  int currIdx;
+  std::string file;
+  std::string defaultStr;
+  token defaultType;
   
  public:
-  Lexer();
+  Lexer( std::string file );
   ~Lexer();
   void PrintVec(std::vector<std::string> inVec);
   void PrintVec(std::vector<Token> tokenVec);
@@ -39,4 +43,6 @@ class Lexer {
   void CommentCheck(std::vector<std::string> inVec, int x, int y);
   void EndOfFile(int vecSize);
   //void IDCheck(std::vector<std::string> inVec, int x, int y);
+
+  void Tokenizer(std::vector<std::string> inVec);
 };

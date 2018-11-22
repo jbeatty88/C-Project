@@ -1,8 +1,14 @@
 #include "Lexer.h"
 #include "Token.h"
 
-Lexer::Lexer() { /*std::cout << "Creating LEXER object" << std::endl;*/ };
-Lexer::~Lexer() { /*std::cout << "Deleting LEXER object" << std::endl;*/ };
+Lexer::Lexer( std::string file) {
+
+  InputStream inStream(file);
+  MapVec(inStream.GetVecSize(), inStream.MakeInputVec());
+  
+};
+
+Lexer::~Lexer() {};
 
 void Lexer::PrintVec(std::vector<std::string> inVec){
   for(std::vector<std::string>::iterator it = inVec.begin(); it != inVec.end(); ++it)
@@ -14,31 +20,41 @@ void Lexer::PrintVec(std::vector<Token> tokenVec) {
   int vecSize = tokenVec.size();
   std::cout << vecSize << std::endl;
 }
+void Lexer::Tokenizer(std::vector<std::string> inVec) {
+  defaultType = UNDEFINED;
+  defaultStr = "";
+  CharCheck(inVec);
+  ColonCheck();
 
-void Lexer::MapVec(int vecSize, std::vector<std::string> inVec) {
-  for(unsigned int i = 0; i != vecSize; i++) {
-    for(unsigned int y = 0; y != inVec[i].length(); y++) {
-      if(inVec[i][y] == ',') { Comma(inVec, i, y); }
-      else if(inVec[i][y] == '.') { Period(inVec, i, y); }
-      else if(inVec[i][y] == '?') { Question(inVec, i, y); } 
-      else if(inVec[i][y] == '(') { LeftParen(inVec, i, y); }   
-      else if(inVec[i][y] == ')') { RightParen(inVec, i, y); }
-      else if(inVec[i][y] == ':') { ColonCheck(inVec, i, y); }
-      else if(inVec[i][y] == '*') { Multiply(inVec, i, y); }
-      else if(inVec[i][y] == '+') { Add(inVec, i, y); }
-      else if(inVec[i][y] == 'S') { SchemeCheck(inVec, i, y); }
-      else if(inVec[i][y] == 'F') { FactCheck(inVec, i, y); }
-      else if(inVec[i][y] == 'R') { RulesCheck(inVec, i, y); }
-      else if(inVec[i][y] == 'Q') { QueriesCheck(inVec, i, y); }
-      else if(inVec[i][y] == '\'') { StringCheck(inVec, i, y); }
-      else if(inVec[i][y] == '#') { CommentCheck(inVec, i, y); }
-      //else { Undefined(inVec, i, y); }
-      //else { IDCheck(inVec, i, y); }
-    }
-  }
-  EndOfFile(vecSize);
-  std::cout << "Total Tokens = " << tokenVec.size() << std::endl;
 }
+
+void Lexer::CharCheck(std::vector<std::string> inVec) {
+  
+}
+
+// void Lexer::Tokenizer(int vecSize, std::vector<std::string> inVec) {
+//   int currLine = 0;
+//   while(currLine <= vecSize) {
+//     for(unsigned int y = 0; y <= inVec[currLine].length(); y++) {
+//       if(inVec[currLine][y] == ',') { Comma(inVec, currLine, y); currLine++; }
+//       else if(inVec[currLine][y] == '.') { Period(inVec, currLine, y); currLine++; }
+//       else if(inVec[currLine][y] == '?') { Question(inVec, currLine, y); currLine++;} 
+//       else if(inVec[currLine][y] == '(') { LeftParen(inVec, currLine, y); currLine++;}   
+//       else if(inVec[currLine][y] == ')') { RightParen(inVec, currLine, y);currLine++; }
+//       else if(inVec[currLine][y] == ':') { ColonCheck(inVec, currLine, y); currLine++;}
+//       else if(inVec[currLine][y] == '*') { Multiply(inVec, currLine, y); currLine++;}
+//       else if(inVec[currLine][y] == '+') { Add(inVec, currLine, y); currLine++;}
+//       else if(inVec[currLine][y] == 'S') { SchemeCheck(inVec, currLine, y); currLine++;}
+//       else if(inVec[currLine][y] == 'F') { FactCheck(inVec, currLine, y); currLine++;}
+//       else if(inVec[currLine][y] == 'R') { RulesCheck(inVec, currLine, y); currLine++;}
+//       else if(inVec[currLine][y] == 'Q') { QueriesCheck(inVec, currLine, y); currLine++;}
+//       else if(inVec[currLine][y] == '\'') { StringCheck(inVec, currLine, y); currLine++;}
+//       else if(inVec[currLine][y] == '#') { CommentCheck(inVec, currLine, y); currLine++;}
+//     }
+//   }
+//   EndOfFile(vecSize);
+//   std::cout << "Total Tokens = " << tokenVec.size() << std::endl;
+// }
 
 void Lexer::EndOfFile(int vecSize) {
   Token tok("", vecSize - 1, ENDOFILE);

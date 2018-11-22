@@ -10,13 +10,15 @@ class InputStream {
   std::string line;
   std::ifstream inFile;
   std::string fileName;
- protected:
   std::vector<std::string> inputVec;
+  int currLine;
+  
  public:
   InputStream(std::string fileName);
   ~InputStream();
   int GetVecSize();
   void PrintVec();
   std::vector<std::string> MakeInputVec();
+  int GetCurrLine();
   
 };

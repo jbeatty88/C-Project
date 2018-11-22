@@ -1,22 +1,18 @@
-#This should be a FAILURE with empty Schemes
-
 Schemes:
-  
+  snap(S,N,A,P)
 
-Facts: 
-  SimpleID('Clark Kent','Smallville').
-  SimpleID('Lex Luther','Metropolis').
+#comment
+
+  HasSameAddress(X,Y)
+
+Facts: #comment
+  snap('12345','C. Brown','12 Apple','555-1234').
+  snap('33333','Snoopy','12 Apple','555-1234').
 
 Rules:
-  Plot(X,Y) :- SimpleID(A,X),SimpleID(D,(E + C)).
-  Graph(Y,Z) :- SimpleID(B,C),SimpleID(D,(E * C)).
-  Calc(X,Y,Z) :- SimpleID(X,B),SimpleID(D,Y).
-  Derive(X) :- SimpleID(A,C),SimpleID((D * Y),(E + C)).
-  Multiply(Y) :- SimpleID(A,X),SimpleID(Y,B).
+  HasSameAddress(X,Y) :- snap(A,X,B,C),snap(D,(Y*T),(G+S),(E+(C*D))).
+
+#comment
 
 Queries:
-  Plot('Clark Kent',Who)?
-  Graph('Smallville', Where)?
-  Calc('Lex Luther', How)?
-  Derive('SuperMan', Who)?
-  Multiply('Metropolis', What)?
+  HasSameAddress('Snoopy',Who)?

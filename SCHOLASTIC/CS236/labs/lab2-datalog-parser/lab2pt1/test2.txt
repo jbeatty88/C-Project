@@ -1,0 +1,21 @@
+#| Simple Datalog FAILURE test input on single 
+unexpected character. Only the query NonTerminal 
+derives a Q_MARK so the first misplaced Q_MARK 
+should throw an error. (Line 6 should have the issue) |#
+
+Schemes:?
+  SimpleID(I,D)
+
+# Should have thrown an error on line 6
+
+  Plot(X,Y)
+
+Facts: 
+  SimpleID('8012824847','Clark Kent','Smallville','80931').
+  SimpleID('356-239-2399','Lex Luther','Metropolis','80934').
+
+Rules:
+  Plot(X,Y) :- SimpleID(A,X,B,C),SimpleID(D,Y,B,(E+C)).
+
+Queries:
+  Plot('Clark Kent',Who)?

@@ -1,0 +1,109 @@
+Schemes:
+    snap(S,N,A,P) 
+    NameHasID(N,S)
+ 
+Facts:
+    snap('12345','C. Brown','12 Apple','555-1234').
+    snap('67890','L. Van Pelt','34 Pear','555-5678').
+ 
+Rules:
+    NameHasID(N,S) :- snap(S,N,A,P)?
+ 
+Queries:
+    NameHasID('Snoopy',Id)?
+    
+    'This is an ic
+    multi line
+    Schemes:
+    snap(S,N,A,P) 
+    NameHasID(N,S)
+ 
+Facts:
+    snap('12345','C. Brown','12 Apple','555-1234').
+    snap('67890','L. Van Pelt','34 Pear','555-5678').
+ 
+Rules:
+    NameHasID(N,S) :- snap(S,N,A,P)?
+ 
+Queries:
+    NameHasID('Snoopy',Id)?
+    
+    'This is an ic
+    multi lineSchemes:
+    snap(S,N,A,P) 
+    NameHasID(N,S)
+ 
+Facts:
+    snap('12345','C. Brown','12 Apple','555-1234').
+    snap('67890','L. Van Pelt','34 Pear','555-5678').
+ 
+Rules:
+    NameHasID(N,S) :- snap(S,N,A,P)?
+ 
+Queries:
+    NameHasID('Snoopy',Id)?
+    
+    'This is an ic
+    multi lineQueries:
+IsInRoomAtDH('Snoopy', R, 'M'H)?
+Rules Facts Schemes
+&@Queries
+:
+'hello
+I am' $ A ' this has a
+Return The end''s nearQueries:
+IsInRoomAtDH('Snoopy', R, 'M'H)?
+Rules Facts Schemes
+&@Queries
+:
+'hello
+I am' $ A ' this has a
+Return The end''s nearQueries:
+IsInRoomAtDH('Snoopy',R,'M'H)?
+Rules Facts Schemes
+&@Queries
+:
+'hello
+I am' $ A 'this has a
+Return
+The end''s nearQueries:
+IsInRoomAtDH('Snoopy',R,'M'H)?
+Rules Facts Schemes
+&@Queries
+:
+'hello
+I am' $ A 'this has a
+Return
+The end''s near.
+,
+'a string'
+#A comment
+Schemes
+FactsRules
+::-
+.
+,
+'a string'
+#A comment
+Schemes
+FactsRules
+::-
+Queries:
+IsInRoomAtDH('Snoopy',R,'M',H)
+#SchemesFactsRules<
+.
+#|comment >=
+wow|#
+Queries:
+IsInRoomAtDH('Snoopy',R,'M',H)
+#SchemesFactsRules<
+.
+#|comment >=
+wow|#
+Queries:
+IsInRoomAtDH('Snoopy',R,'M',H)
+#SchemesFactsRules<
+.
+#|comment >=
+wow|#
+#comment

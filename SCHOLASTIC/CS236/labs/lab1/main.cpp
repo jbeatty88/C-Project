@@ -18,10 +18,8 @@ int main(int argc, char* argv[]) {
 	}
 
 	Lexer lexer(argv[1]);
-	//InputStream input(argv[1]);
-	//input.PrintStr();
-	lexer.tokenize();
-	lexer.printV();
+	lexer.Automata();
+	lexer.PrintVec();
 
 
 	return 0;

@@ -1,21 +1,18 @@
-#| Simple DataLog SUCCESS test input
-This test case only tests basic functionality with a very 
-simple test input. |#
-
 Schemes:
-  SimpleID(I,D)
+  snap(S,N,A,P)
 
-# So far so good
+#comment
 
-  Plot(X,Y)
+  HasSameAddress(X,Y)
 
-Facts: 
-#This is still in the grammar
-  SimpleID('8012824847','Clark Kent','Smallville','80931').
-  SimpleID('356-239-2399','Lex Luther','Metropolis','80934').
+Facts: #comment
+  snap('12345','C. Brown','12 Apple','555-1234').
+  snap('33333','Snoopy','12 Apple','555-1234').
 
 Rules:
-  Plot(X,Y) :- SimpleID(A,X,B,C),SimpleID(D,Y,B,(E+C)).
+  HasSameAddress(X,Y) :- snap(A,X,B,C),snap(D,Y,B,(E+C)).
+
+#comment
 
 Queries:
-  Plot('Clark Kent',Who)?
+  HasSameAddress('Snoopy',Who)?

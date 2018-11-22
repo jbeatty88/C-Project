@@ -5,22 +5,25 @@
 #include <ctype.h>
 #include <vector>
 #include "Token.h"
+#include "DatalogProgram.h"
 
 class Parser {
-private:
+public:
     std::vector<Token> tokens;
     size_t idx;
     Token currentToken;
     std::string strError;
 
-public:
+    //temporary variables 
+    DatalogProgram tmpDLog;
+    Predicate tmpPred;
+    Rule tmpRule;
+
+
     Parser(std::vector<Token> tokVec);
     ~Parser();
     bool IsMatch(TokenType type);
     Token GetToken(size_t i = 0);
-    // Token CurrentToken();
-    //TokenType GetTokenType();
-    //void Parse();
     void ParseDataLogProgram();
     void ParseScheme();
     void ParseSchemeList();
@@ -35,9 +38,10 @@ public:
     void ParseParameter();
     void ParseParameterList();
     void ParseExpression();
-    void ParseOperator();
+    std::string ParseExpressionParameter();
+    std::string ParseOperator();
     void ParseQuery();
     void ParseQueryList();
     void ParseStringList();
-   
+    DatalogProgram GetDatalogProgram();
 };

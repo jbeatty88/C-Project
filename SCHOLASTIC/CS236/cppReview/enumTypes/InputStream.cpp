@@ -1,11 +1,11 @@
 #include "InputStream.h"
 
 InputStream::InputStream(std::string fileName): inFile(fileName) {
-  //std::cout << "Creating instance of Input stream" << std::endl;
+  currLine = 0;
   MakeInputVec();
 };
 
-InputStream::~InputStream(){ /*std::cout << "Deleting InputSTream Object" << std::endl;*/ };
+InputStream::~InputStream(){};
 
 int InputStream::GetVecSize() { return inputVec.size(); };
 
@@ -20,7 +20,9 @@ std::vector<std::string> InputStream::MakeInputVec() {
     //this->line += '\n';
     inputVec.push_back(this->line);
   };
-
+  
   // return a string vector. Each element is a line from input
   return inputVec;
 };
+
+int InputStream::GetCurrLine() { return currLine; };
