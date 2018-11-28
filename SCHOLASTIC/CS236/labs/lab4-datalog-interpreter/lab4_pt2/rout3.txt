@@ -1,0 +1,11 @@
+DeaUoo(A,B,C,D,E)? No
+DeaUoo(A,B,'a',D,E)? No
+DeaVoo(A,B,'a',D,E)? No
+DeaUoo(A,B,'b',D,E)? No
+DeaWoo(A,B,'a',D,Applestrudle)? Yes(2)
+  A='a',   B='a',   D='a',   Applestrudle='b'
+  A='a',   B='b',   D='a',   Applestrudle='b'
+DeaWoo(A,B,'a',D,E)? Yes(2)
+  A='a',   B='a',   D='a',   E='b'
+  A='a',   B='b',   D='a',   E='b'
+DeaWoo('a','a','a','a','b')? Yes(1)
