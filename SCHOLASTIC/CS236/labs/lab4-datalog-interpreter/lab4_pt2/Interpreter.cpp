@@ -13,8 +13,10 @@ Interpreter::Interpreter(DatalogProgram dp) {
     this->projCol = {};
     this->oldVars = {};
     this->qVals = {};
+    this->db = Database();
     this->newHead = Header();
     MakeRelation();
+    EvaluateRules();
     AllQueryEval();
 }
 
@@ -30,41 +32,41 @@ string Interpreter::GetName(size_t n) {
 }
 
 vector<Relation> Interpreter::MakeRelation() {
-    string name;
-    Header h = Header();
-    Relation r = Relation();
-    vector<Relation> rels;
-    Row row = Row();
+    string relationName;
+    Header relationHeader = Header();
+    Relation theRelation = Relation();
+    vector<Relation> relations;
+    Row relationRows = Row();
 
     // Iterate through our Schemes
     for(size_t i = 0; i < this->sVec.size(); i++) {
         // Get the name of our Relation
-        name = this->sVec[i].id;
+        relationName = this->sVec[i].id;
         // Iterate through our Header Values
         for(size_t j = 0; j < this->sVec[i].paramVec.size(); j++) {
             // Get each of the header values
             string currVal = this->sVec[i].paramVec[j].value;
             // Add them to our Header object
-            h.push_back(currVal);
+            relationHeader.push_back(currVal);
         }
         // Create a Relation with the Schemes Name and with our Header
-        r = Relation(name, h);
+        theRelation = Relation(relationName, relationHeader);
         // Add to our collection of relations to add to the DB
-        rels.push_back(r);
+        relations.push_back(theRelation);
         // Clear our header P-FIX: make local
-        h.clear();
+        relationHeader.clear();
     }
     // Finish making each relation of names and header into a table
-    rels = MakeRow(rels);
+    relations = MakeRow(relations);
     // Make a database obj
-    this->db = Database();
+    // this->db = Database();
     // Iterate through our collection of now complete Relation(tables)
-    for(size_t k = 0; k < rels.size(); k++) {
+    for(size_t k = 0; k < relations.size(); k++) {
         // Add them into our database accessible by name of relation
-        this->db.insert(pair<string, Relation>(rels[k].name, rels[k]));
+        this->db.insert(pair<string, Relation>(relations[k].name, relations[k]));
     }
     // Return a collection of relations
-    return rels;
+    return relations;
 }
 
 vector<Relation> Interpreter::MakeRow(vector<Relation> r) {
@@ -113,34 +115,37 @@ void Interpreter::AllQueryEval() {
     this->qVals.clear();
     // How many queries we have
     size_t qCount = this->qVec.size();
-    for(size_t i = 0; i < qCount; i++)
-        this->qVals.push_back(qVec[i].id);
+    // for(size_t i = 0; i < qCount; i++)
+    //     this->qVals.push_back(qVec[i].id);
         
     // Iterate through all of the queries
     for(size_t i = 0; i < qCount; i++) {
+        this->qVals.clear();
+        for(size_t j = 0; j < qVec[i].paramVec.size(); j++) {
+            this->qVals.push_back(qVec[i].paramVec[j].value);
+        }
         // this->qVals.push_back(qVec[i].id);
         // Evaluate each query
         SingleQueryEval(qVec[i].id, i);
     }
 }
 Relation Interpreter::SingleQueryEval(string name, size_t idx) {
-    this->projCol.clear();
-    this->oldVars.clear();
-    this->newHead.clear();
-
     // Copies the desired relation from the db
     try {
         Relation r = this->db.GetTable(name);
+        this->projCol.clear();
+        this->oldVars.clear();
+        this->newHead.clear();
         // Relation r = this->db.GetTable(name);
         // Iterate through the current header to get all of the values
         for(size_t i = 0; i < r.header.size(); i++)
-            // Copy the values
+            // Copy the header values
             oldVars.push_back(r.header.at(i));
         
         // Perform constant select if needed
-        this->ConstSelect(r, idx);
+        this->ConstSelect(r);
         // Perform variable select if needed
-        this->VarSelect(r, idx);
+        this->VarSelect(r);
         // Perform project **and rename** if needed
         this->Proj(r);
 
@@ -188,19 +193,21 @@ string Interpreter::Format(Relation& r, size_t idx) {
     return ss.str();
 }
 
-void Interpreter::ConstSelect(Relation& r, size_t idx) {
-    size_t qCount = this->qVec[idx].paramVec.size();
-
+void Interpreter::ConstSelect(Relation& r) {
+    // size_t qCount = this->qVec[idx].paramVec.size();
+    size_t qCount = this->qVals.size();
     // Iterate through the query values
     for(size_t i = 0; i < qCount; i++) {
         // Get the query value
-        string currVal = this->qVec[idx].paramVec[i].value; 
+        string currVal = this->qVals.at(i);
+        // string currVal = this->qVec[idx].paramVec[i].value; 
         // Is it a constant
-        bool constant = this->qVec[idx].paramVec[i].isConstant;
+        // bool constant = this->qVec[idx].paramVec[i].isConstant;
         // If it is
-        if(constant)
+        if(currVal.at(0) == '\'') {
             // Perform constant select
             r = r.Select(currVal, i);
+        }
         // If it is not a constant
         else
             // Add it to the project queue
@@ -224,24 +231,59 @@ void Interpreter::ProjQueue(string vn, size_t col) {
     }
     // If the diplicate flag is not set
     if(!isDup) {
+        bool dupCol = false;
+        // Add that col value to our col vector to Project
+        for(size_t i = 0; i < projCol.size(); i++) {
+            if(projCol.at(i) == col) {
+                dupCol = true;
+            }
+        }
+        if(!dupCol) {
+            this->projCol.push_back(col);
+        // Add the new variable value for the new head rename
+            this->newHead.push_back(vn);
+        }
+        // this->projCol.push_back(col);
+        // // Add the new variable value for the new head rename
+        // this->newHead.push_back(vn);
+    }
+}
+void Interpreter::RuleProjQueue(string vn, size_t col) {
+    bool isDup = false;
+    size_t varCount = this->newHead.size();
+
+    // Iterate through our new head variables
+    for(size_t i = 0; i < varCount; i++) {
+        // get the value
+        string headVal = this->newHead.at(i);
+        // If value is already in the new head
+        if(vn == headVal) {
+            // Set the duplicate flag
+            isDup = true;
+        }
+    }
+    // If the diplicate flag is not set
+    if(!isDup) {
         // Add that col value to our col vector to Project
         this->projCol.push_back(col);
         // Add the new variable value for the new head rename
-        this->newHead.push_back(vn);
+        // this->newHead.push_back(vn);
     }
 }
 
-void Interpreter::VarSelect(Relation& r, size_t idx) {
-    size_t qCount = this->qVec[idx].paramVec.size();
-
+void Interpreter::VarSelect(Relation& r) {
+    // size_t qCount = this->qVec[idx].paramVec.size();
+    size_t qCount = this->qVals.size();
     // Iterate through the query values
     for(size_t i = 0; i < qCount; i++) {
         // Copy current value
-        string var1 = this->qVec[idx].paramVec[i].value;
+        string var1 = this->qVals.at(i);
+        // string var1 = this->qVec[idx].paramVec[i].value;
         // iterate through the rest of the query values
         for(size_t j = i + 1; j < qCount; j++) {
             // copy the other values for comparison
-            string var2 = this->qVec[idx].paramVec[j].value;
+            string var2 = this->qVals.at(j);
+            // string var2 = this->qVec[idx].paramVec[j].value;
             // If there is a match
             if(var1 == var2)
                 // Perform a Select
@@ -275,57 +317,85 @@ void Interpreter::EvaluateRules() {
     size_t rCount = this->rVec.size();
     for(size_t x = 0; x <  rCount; x++) {
         Relation r;
-        Relation rDb = this->db.GetTable(this->rVec[x].pred.id);
+        Relation leftRelFromDb = this->db.GetTable(this->rVec[x].pred.id);
+        Header dbRelHeader = leftRelFromDb.header;
+        
+        leftRelFromDb = this->LeftHandEval(leftRelFromDb, x);
         // Evaluate predicates on the right-hand side of rule
+        // this->newHead = (this->db.GetTable(this->rVec[x].pred.id).header);
         vector<Relation> rightHandPred = RightHandEval(x);
-        // Join the relations of that result
+
+        // How many predicates were on the right side?
         size_t resultCount = rightHandPred.size();
+        // If there were more than 1 predicates
         if(resultCount > 1)
+        // Join the relations of that result
             this->Join(r, rightHandPred);
         else 
             r = rightHandPred.at(0);
         // Project cols that appear in head predicate
-        vector<size_t> headPredCols = {};
-        for(size_t i = 0; i < r.header.size(); i++) {
-            headPredCols.push_back(i);
+        // vector<size_t> headPredCols = {};
+        vector<string> headPredVals = {};
+        
+        for(size_t i = 0; i < leftRelFromDb.header.size(); i++) {
+            // headPredCols.push_back(i);
+            headPredVals.push_back(leftRelFromDb.header.at(i));
         }
-        r = r.Project(headPredCols);
+        // headPredCols = {1, 0};
+        r = r.Project(headPredVals);
         // Rename relation to match schema of relation in DB
-        r = r.Rename(rDb.header);
+        r = r.Rename(dbRelHeader);
         // Union with relation in DB
-        rDb.Unionize(r);
-        this->db.insert(pair<string, Relation>(rDb.name, rDb));
+        leftRelFromDb.header = dbRelHeader;
+        leftRelFromDb.Unionize(r);
+        
+
+        map<string, Relation>::iterator itr = this->db.find(leftRelFromDb.name);
+        this->db.erase(itr);
+        this->db.insert(pair<string, Relation>(leftRelFromDb.name, leftRelFromDb));
     }
 }
 
+Relation Interpreter::LeftHandEval(Relation leftHand, size_t idx) {
+    Header leftRuleHead = Header();
+    Relation LeftRuleRel = Relation();
+    LeftRuleRel = leftHand;
+    for(size_t i = 0; i < this->rVec[idx].pred.paramVec.size(); i++) {
+        leftRuleHead.push_back(this->rVec[idx].pred.paramVec[i].value);
+    }
+    LeftRuleRel.header = leftRuleHead;
+    return LeftRuleRel;
+}
 vector<Relation> Interpreter::RightHandEval(size_t x) {
     std::vector<Relation> rightHandRels = {};
     vector<string> ruleVals = {};
     Relation newRel;
 
     size_t numRules = this-> rVec[x].predVec.size();
+    // size_t numRules = this->rVec.size();
 
     for(size_t i = 0; i < numRules; i++) {
         this->projCol.clear();
         this->qVals.clear();
         this->newHead.clear();
         this->newVars.clear();
-        this->oldVars.clear();
+        ruleVals.clear();
+        // this->oldVars.clear();
         for(size_t k = 0; k < rVec[x].predVec[i].paramVec.size(); k++) {
             ruleVals.push_back(this->rVec[x].predVec[i].paramVec[k].value);
         }
         newRel = this->db.GetTable(this->rVec[x].predVec[i].id);
         size_t numVals = ruleVals.size();
+        this->qVals = ruleVals;
         for(size_t j = 0; j < numVals; j++) {
-            this->qVals = ruleVals;
-            this->projCol.push_back(j);
+            this->ProjQueue(ruleVals.at(j), j);
         }
-        for(size_t l = 0; l < rVec[x].predVec[i].paramVec.size(); l++) {
-            ruleVals.push_back(this->rVec[x].predVec[i].paramVec[l].value);
-        }
+
         this->newVars = ruleVals;
-        this->ConstSelect(newRel, i);
-        this->VarSelect(newRel, i);
+        // this->qVals = newVars;
+        // this->newHead = newRel.header;
+        this->ConstSelect(newRel);
+        this->VarSelect(newRel);
         this->Proj(newRel);
 
         rightHandRels.push_back(newRel);

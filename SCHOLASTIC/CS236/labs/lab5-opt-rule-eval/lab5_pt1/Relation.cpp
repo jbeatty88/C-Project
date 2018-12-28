@@ -3,9 +3,9 @@
 using namespace std;
 
 Relation::Relation() {
-    this->name = "";
-    this->header = {};
-    this->rows = {};
+    // this->name = "";
+    // this->header = {};
+    // this->rows = {};
 }
 
 Relation::Relation(string n, set<string> header) {
@@ -22,27 +22,7 @@ Relation::Relation(string n, Header h) {
 
 Relation::~Relation() {}
 
-string Relation::GetName() { return this->name; }
-
-Header Relation::GetHeader() { return this->header; }
-
-set<Row> Relation::GetRows() { return this->rows; }
-
-void Relation::SetName(string n) { this->name = n; }
-
-bool Relation::AddRow(Row r) {
-    if(r.size() != 0) {
-        if(this->rows.insert(r).second)
-            return true;
-        else
-            return false;
-    }
-    else {
-        return false;
-    }
-    
-}
-// void Relation::AddRow(Row r) { if(r.size() != 0) this->rows.insert(r); }
+void Relation::AddRow(Row r) { this->rows.insert(r); }
 
 string Relation::ToString() {
     stringstream ss;
@@ -81,10 +61,7 @@ void Relation::SetRelName(string n) { this->name = n; }
 
 void Relation::SetHeader(Header h) { this->header = h; }
 
-void Relation::SetRows(set<Row> r) {
-    if(r.size() != 0) 
-        this->rows = r;
-}
+void Relation::SetRows(set<Row> r) {this->rows = r; }
 
 Relation Relation::Select(string val, size_t col) {
     // Our new relation will be a subset of name and schemes
@@ -115,17 +92,6 @@ Relation Relation::Select(size_t col1, size_t col2) {
     // return a new relation
     return newRel;
 }
-Relation Relation::Project(vector<string> colNames) {
-    vector<size_t> cols;
-    for(size_t i = 0; i < colNames.size(); i++) {
-        for(size_t j = 0; j < this->header.size(); j++) {
-            if(colNames[i] == this->header[j]) {
-                cols.push_back(j);
-            }
-        }
-    }
-    return Project(cols);
-}
 
 Relation Relation::Project(vector<size_t> cols) {
     Relation newRel = Relation();
@@ -153,6 +119,8 @@ Relation Relation::Project(vector<size_t> cols) {
         newRel.AddRow(newRow);
     }
     newRel.SetHeader(newHeader);
+    // newRel.name = newHeader.ToString();
+    // Return the new realtion
     return newRel;
 }
 
@@ -171,7 +139,7 @@ void Relation::Unionize(Relation& ruleEvalRelation) {
         // If it doesn't already exists
         if(this->IsDuplicateRow(row) == false) {
             // Print it out
-            this->RowStringer(row);
+            cout << this->RowStringer(row);
             // Add it to DB Relation
             this->AddRow(row);
         }
@@ -185,9 +153,8 @@ bool Relation::IsDuplicateRow(Row r) {
         return true;
 }
 
-string Relation::RowStringer(Row& row) const {
+string Relation::RowStringer(Row& row) {
     std::stringstream ss;
-    // size_t numCol = header.size();
     size_t numCol = row.size();
     vector<string> headers = this->header;
     
@@ -206,20 +173,17 @@ string Relation::RowStringer(Row& row) const {
 
 Relation Relation::Join(Relation& relA, Relation& relB) {
     Relation newRel = Relation();
-    Header h1 = relA.GetHeader();
-    Header h2 = relB.GetHeader();
-    set<Row> rowA = relA.GetRows();
-    set<Row> rowB = relB.GetRows();
-    Header newHead = this->CombineSchemes(h1, h2); // Combine the Headers to cread a new head
+
+    Header newHead = this->CombineSchemes(relA.header, relB.header); // Combine the Headers to cread a new head
     newRel.SetHeader(newHead); // Set the header for the new relation
 
     // Iterate through the rows of both relations
-    for(Row r1 : rowA) {
-        for (Row r2 : rowB) {
+    for( Row r1 : relA.rows) {
+        for (Row r2 : relB.rows) {
             // Check if they are joinable rows
-            if(this->IsJoinable(r1, r2, h1, h2)) {
+            if(this->IsJoinable(r1, r2, relA.header, relB.header)) {
                 // If they are joinable, combine them
-                Row newRow = this->CombineTuples(r1, r2, h1, h2);
+                Row newRow = this->CombineTuples(r1, r2, relA.header, relB.header);
                 // Add new row to the new relation
                 newRel.AddRow(newRow);
             }
@@ -291,8 +255,7 @@ Row Relation::CombineTuples(Row& rowA, Row& rowB, Header& headA, Header& headB) 
         // Check if the attribute is different
         if(IsDiffAttr(headA, headBAttrib)) {
             // If it is different, you can add it. 
-            if(val != "")
-                newRow.push_back(val);
+            newRow.push_back(val);
         }
     }
     return newRow;

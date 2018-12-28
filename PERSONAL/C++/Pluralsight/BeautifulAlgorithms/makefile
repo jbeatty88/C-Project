@@ -1,0 +1,28 @@
+CPP = g++
+DEBUG = -ggdb
+CPPFLAGS = -g -std=c++17 $(DEBUG)
+#LDFLAGS = -lm
+EXE = pluralsight-finding 
+OBJS = finding.o
+
+.C.o:
+	$(CPP) $< -c $(CPPFLAGS)
+$(EXE): $(OBJS)
+	$(CPP) $(CPPFLAGS) -o $@ $(OBJS)
+
+
+.PHONY: clean
+clean:
+	rm -f $(OBJS)
+	rm -f $(EXE)
+
+.PHONY: pmccabe
+pmccabe:
+	pmccabe -v *cpp
+
+.PHONY: zip
+zip:
+	zip lab4pt1 *cpp *h makefile
+
+
+

@@ -31,15 +31,17 @@ class Interpreter {
 
         Relation SingleQueryEval(std::string name, size_t idx);
         void AddToDB(Relation& r);
-        void ConstSelect(Relation& r, size_t idx);
-        void VarSelect(Relation& r, size_t idx);
+        void ConstSelect(Relation& r);
+        void VarSelect(Relation& r);
         void Proj(Relation& r);
         std::string Format(Relation& r, size_t idx);
         void ProjQueue(std::string vn, size_t col);
+        void RuleProjQueue(std::string vn, size_t col);
         void AllQueryEval();
         // void NewVarCheck(std::string v, size_t col);
 
         void EvaluateRules();
+        Relation LeftHandEval(Relation leftHand, size_t idx);
         std::vector<Relation> RightHandEval(size_t x);
         void Join(Relation& r, std::vector<Relation>& rightHandRels);
 

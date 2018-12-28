@@ -20,7 +20,7 @@ class Relation {
         Relation(std::string n, Header h);
         ~Relation();
 
-        bool AddRow(Row r);
+        void AddRow(Row r);
 
         std::string ToString();
         void PrintRows();
@@ -28,10 +28,6 @@ class Relation {
         void PrintName();
         
         size_t GetRowCount();
-        std::string GetName();
-        Header GetHeader();
-        std::set<Row> GetRows();
-        void SetName(std::string n);
         void SetRelName(std::string n);
         void SetHeader(Header h);
         void SetRows(std::set<Row> r);
@@ -46,12 +42,11 @@ class Relation {
         Relation Select(std::string val, size_t col);
         Relation Select(size_t col1, size_t col2);
         Relation Project(std::vector<size_t> cols);
-        Relation Project(std::vector<std::string> colNames);
         Relation Rename(Header head);
         Relation Join(Relation& relA, Relation& relB);
 
         void Unionize(Relation& r);
-        std::string RowStringer(Row& row) const;
+        std::string RowStringer(Row& row);
         Header CombineSchemes(Header& hA, Header& hB);
         Row CombineTuples(Row& rowA, Row& rowB, Header& headA, Header& headB);
         
