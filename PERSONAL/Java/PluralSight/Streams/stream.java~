@@ -1,0 +1,25 @@
+/*
+Streams have only 2 types:
+Byte Streams: bineary data
+Text Streams: Unicode Character data
+
+Reading From:
+    BaseClasses: InputStream(Byte)        |         Reader(Text)
+                  int read() 1 byte                   int read()
+  
+
+                INPUTSTREAM_EX:
+                   InputStream input = // create input streams
+		   int intVal;
+		   while((intVal = input.read()) >= 0) {
+		       byte byteVal = (byte) intVal;
+
+		   }
+		 READER_EX:
+		   Reader reader = // create reader
+		   int intVal;
+		   while((intVal = reader.read()) >= 0) {
+		       char charVal = (char) intVal;
+		       
+		   }
+*/
