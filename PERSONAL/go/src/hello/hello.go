@@ -5,5 +5,9 @@ import (
 )
 
 func main(){
-	fmt.Printf("hello, world!\n")
+	greet("Josh")
+}
+
+func greet(name string) {
+	fmt.Printf("Hello %s\n", name)
 }
