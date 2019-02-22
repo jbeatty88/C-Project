@@ -1,0 +1,17 @@
+PCS: takes large multi-D points and transforms to X-Y using SVD
+QC:BBDUC Program
+Whole genome shotgun
+Mapping:
+Processing:
+Dr. Chasten Wed at 2 his office
+
+Convert whole genome to 16S
+----- How? *Meteflan
+clust earth microbiom data *Chime
+
+
+-- Might need to be assembled before (*BWA)
+****Calculate tetronucleotide frequency****
+Dr Andivich - pipeline to calculate tetronucleotide
+
+1 2 forward and reverse read possibly
